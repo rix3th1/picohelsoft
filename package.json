@@ -1,0 +1,22 @@
+{
+  "name": "picohelsoft",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "latest",
+    "@nuxt/ui": "^2.17.0",
+    "nuxt": "^3.12.3"
+  },
+  "trustedDependencies": [
+    "esbuild",
+    "protobufjs",
+    "vue-demi"
+  ]
+}
