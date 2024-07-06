@@ -18,5 +18,8 @@
     "esbuild",
     "protobufjs",
     "vue-demi"
-  ]
+  ],
+  "dependencies": {
+    "zod": "^3.23.8"
+  }
 }

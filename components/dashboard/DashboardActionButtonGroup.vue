@@ -1,0 +1,39 @@
+<template>
+  <UButtonGroup size="xl">
+    <UButton
+      color="indigo"
+      variant="outline"
+      label="Copiar"
+      icon="i-heroicons-clipboard-document-solid"
+      trailing
+    />
+    <UButton
+      color="indigo"
+      variant="outline"
+      label="CSV"
+      icon="i-heroicons-document-text"
+      trailing
+    />
+    <UButton
+      color="indigo"
+      variant="outline"
+      label="Excel"
+      icon="i-heroicons-document-chart-bar"
+      trailing
+    />
+    <UButton
+      color="indigo"
+      variant="outline"
+      label="PDF"
+      icon="i-heroicons-document-arrow-down"
+      trailing
+    />
+    <UButton
+      color="indigo"
+      variant="outline"
+      label="Imprimir"
+      icon="i-heroicons-printer"
+      trailing
+    />
+  </UButtonGroup>
+</template>
