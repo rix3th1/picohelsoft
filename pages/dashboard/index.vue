@@ -1,9 +1,7 @@
 <template>
   <NuxtLayout name="dashboard">
-    <UContainer>
-      <DashboardTitle />
-      <DashboardActionButtonGroup />
-      <DashboardTable />
-    </UContainer>
+    <DashboardTitle title="BIENVENIDOS A PICOHELSOFT" />
+    <DashboardActionButtonGroup />
+    <DashboardTable called-from="dashboard" />
   </NuxtLayout>
 </template>

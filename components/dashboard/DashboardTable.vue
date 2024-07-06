@@ -1,4 +1,13 @@
 <script setup lang="ts">
+import type { DropdownItem } from '#ui/types'
+
+const props = defineProps({
+  calledFrom: {
+    type: String,
+    required: true
+  }
+})
+
 const columns = [
   {
     key: 'id',
@@ -19,6 +28,9 @@ const columns = [
   {
     key: 'role',
     label: 'Role'
+  },
+  {
+    key: 'actions'
   }
 ]
 
@@ -83,6 +95,16 @@ const filteredRows = computed(() => {
 
 const page = ref(1)
 const pageCount = 5
+
+const items = (row: (typeof people)[0]): DropdownItem[][] => [
+  [
+    {
+      label: 'Registrar huella',
+      icon: 'i-heroicons-finger-print-20-solid',
+      click: () => alert(`Registrar huella de ${row.name}`)
+    }
+  ]
+]
 </script>
 
 <template>
@@ -99,7 +121,17 @@ const pageCount = 5
       />
     </div>
 
-    <UTable :rows="filteredRows" :columns="columns" />
+    <UTable :rows="filteredRows" :columns="columns">
+      <template #actions-data="{ row }">
+        <UDropdown :items="items(row)">
+          <UButton
+            color="gray"
+            variant="ghost"
+            icon="i-heroicons-ellipsis-horizontal-20-solid"
+          />
+        </UDropdown>
+      </template>
+    </UTable>
     <div
       class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700"
     >

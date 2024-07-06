@@ -1,4 +1,15 @@
+<script setup lang="ts">
+defineProps({
+  title: {
+    type: String,
+    required: true
+  }
+})
+</script>
+
 <template>
-  <h1 class="text-3xl font-medium mb-4">BIENVENIDOS A PICOHELSOFT</h1>
-  <UDivider />
+  <div class="my-10">
+    <h1 class="text-3xl font-medium mb-4">{{ title }}</h1>
+    <UDivider />
+  </div>
 </template>

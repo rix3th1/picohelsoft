@@ -3,7 +3,9 @@
   <main class="flex">
     <DashboardMainAside />
     <div class="flex-1 p-4">
-      <slot />
+      <UContainer>
+        <slot />
+      </UContainer>
     </div>
   </main>
 </template>
