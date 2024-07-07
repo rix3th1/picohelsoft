@@ -20,6 +20,8 @@
     "vue-demi"
   ],
   "dependencies": {
+    "@auth/core": "^0.17.0",
+    "@hebilicious/authjs-nuxt": "latest",
     "zod": "^3.23.8"
   }
 }

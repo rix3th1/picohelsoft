@@ -2,46 +2,36 @@
 import type { FormSubmitEvent } from '#ui/types'
 import { z } from 'zod'
 
-const MAX_UPLOAD_SIZE = 1024 * 1024 * 1 // 1 MB
-const ACCEPTED_FILE_TYPES = ['application/pdf']
+const locations = usePicoHelsoftLocations()
 
 const schema = z.object({
-  cv: z
-    .instanceof(File)
-    .refine(
-      (file) => !file || file.size <= MAX_UPLOAD_SIZE,
-      'El archivo debe ser menor a 1 MB'
-    )
-    .refine(
-      (file) => ACCEPTED_FILE_TYPES.includes(file.type),
-      'El archivo debe ser de tipo PDF'
-    )
+  start_time: z.string({
+    message: 'El horario de inicio es obligatorio'
+  }),
+  end_time: z.string({
+    message: 'El horario de salida es obligatorio'
+  }),
+  location: z.object({}, { message: 'Sede es obligatorio' })
 })
 
 type Schema = z.output<typeof schema>
 
 const state = reactive({
-  cv: undefined
+  start_time: undefined,
+  end_time: undefined,
+  location: undefined
 })
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   // Do something with data
   console.log(event.data)
+  alert('Send')
 }
-
-const campuses = [
-  { id: 1, name: 'Espinal Centro', colors: ['red', 'yellow'] },
-  { id: 2, name: 'Espinal Pijaos Mall', colors: ['blue', 'yellow'] },
-  { id: 3, name: 'Ibagué', colors: ['green', 'blue'] }
-]
-
-const selected = ref(campuses[1])
 </script>
 
 <template>
   <NuxtLayout name="dashboard">
     <DashboardTitle title="REGISTRO DE HORARIOS" />
-
     <section class="grid place-items-center grid-cols-4 gap-4 items-center">
       <UCard
         v-for="index in 4"
@@ -49,53 +39,45 @@ const selected = ref(campuses[1])
         class="w-full max-w-md text-center"
       >
         <template #header>
-          <div class="flex justify-center gap-x-5">
-            <img
-              src="~/assets/user1.png"
-              alt="user"
-              class="w-2/5 h-2/5 rounded-full"
-            />
-          </div>
+          <DashboardUserCardHeader />
         </template>
 
-        <h1 class="text-3xl font-medium text-indigo-500 mb-4">
-          Leonard Krasner
-        </h1>
-        <p class="text-sm text-gray-500">
-          Registre aqui el horario de su empleado
-        </p>
+        <DashboardUserCardBody
+          title="Leonard Krasner"
+          label="Registre aqui el horario de su empleado"
+        />
 
         <template #footer>
-          <div class="flex justify-center gap-x-5">
+          <DashboardUserCardFooter>
             <UForm
               :schema="schema"
               :state="state"
               class="space-y-3"
               @submit="onSubmit"
             >
-              <UFormGroup label="Horario de inicio" required>
+              <UFormGroup name="start_time" label="Horario de inicio" required>
                 <UInput
-                  id="cv"
-                  v-model="state.cv"
+                  id="start_time"
+                  v-model="state.start_time"
                   type="datetime-local"
                   icon="i-heroicons-calendar"
                   size="sm"
                 />
               </UFormGroup>
-              <UFormGroup label="Horario de salida" required>
+              <UFormGroup name="end_time" label="Horario de salida" required>
                 <UInput
-                  id="cv"
-                  v-model="state.cv"
+                  id="end_time"
+                  v-model="state.end_time"
                   type="datetime-local"
                   icon="i-heroicons-calendar"
                   size="sm"
                 />
               </UFormGroup>
 
-              <UFormGroup label="Sede" required>
+              <UFormGroup name="location" label="Sede" required>
                 <USelectMenu
-                  v-model="selected"
-                  :options="campuses"
+                  v-model="state.location"
+                  :options="locations"
                   placeholder="Select a person"
                   searchable
                   searchable-placeholder="Search by name or color"
@@ -125,7 +107,7 @@ const selected = ref(campuses[1])
                 GUARDAR
               </UButton>
             </UForm>
-          </div>
+          </DashboardUserCardFooter>
         </template>
       </UCard>
     </section>

@@ -8,24 +8,16 @@
         class="w-full max-w-md text-center"
       >
         <template #header>
-          <div class="flex justify-center gap-x-5">
-            <img
-              src="~/assets/user1.png"
-              alt="user"
-              class="w-2/5 h-2/5 rounded-full"
-            />
-          </div>
+          <DashboardUserCardHeader />
         </template>
 
-        <h1 class="text-3xl font-medium text-indigo-500 mb-4">
-          Leonard Krasner
-        </h1>
-        <p class="text-sm text-gray-500">
-          Registre aquí el horario de ingreso y salida de su trabajo
-        </p>
+        <DashboardUserCardBody
+          title="Leonard Krasner"
+          label="Registre aquí el horario de ingreso y salida de su trabajo"
+        />
 
         <template #footer>
-          <div class="flex justify-center gap-x-5">
+          <DashboardUserCardFooter>
             <UButton
               color="indigo"
               label="INICIO"
@@ -39,7 +31,7 @@
               size="lg"
               icon="i-heroicons-finger-print-20-solid"
             />
-          </div>
+          </DashboardUserCardFooter>
         </template>
       </UCard>
     </section>

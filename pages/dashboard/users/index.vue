@@ -1,87 +1,61 @@
 <script setup lang="ts">
-const items = [
-  {
-    slot: 'user.add',
-    label: 'Añadir usuario',
-    icon: 'i-heroicons-user-plus'
-  },
-  {
-    slot: 'user.delete',
-    label: 'Eliminar usuario',
-    icon: 'i-heroicons-user-minus'
-  },
-  {
-    slot: 'user.update',
-    label: 'Actualizar usuario',
-    icon: 'i-heroicons-user-circle'
-  },
-  {
-    slot: 'user.query',
-    label: 'Consultar usuario',
-    icon: 'i-heroicons-eye'
-  }
-]
+import type { FormSubmitEvent } from '#ui/types'
+import { z } from 'zod'
 
-const campuses = [
-  { id: 1, name: 'Espinal Centro', colors: ['red', 'yellow'] },
-  { id: 2, name: 'Espinal Pijaos Mall', colors: ['blue', 'yellow'] },
-  { id: 3, name: 'Ibagué', colors: ['green', 'blue'] }
-]
+const userAddSchema = z.object({
+  name: z.string().min(3, 'El nombre es obligatorio'),
+  document: z.number().min(10, 'El documento es obligatorio'),
+  location: z.object({}, { message: 'Sede es obligatorio' })
+})
 
-const userAddForm = reactive({
+type UserAddSchema = z.infer<typeof userAddSchema>
+
+const userDeleteSchema = z.object({
+  user: z.object({}, { message: 'Usuario es obligatorio' })
+})
+
+type UserDeleteSchema = z.infer<typeof userDeleteSchema>
+
+const userUpdateSchema = z.object({
+  name: z.string().min(3, 'El nombre es obligatorio').optional(),
+  document: z.number().min(10, 'El documento es obligatorio').optional(),
+  location: z.object({}, { message: 'Sede es obligatorio' }).optional()
+})
+
+type UserUpdateSchema = z.infer<typeof userUpdateSchema>
+
+const items = useDashboardTabItems()
+const locations = usePicoHelsoftLocations()
+const people = useDashboardUsersPeople()
+
+const userAddFormState = reactive({
   name: '',
   document: '',
-  campus: ''
+  location: ''
 })
-const userDeleteForm = reactive({
-  currentPassword: '',
-  newPassword: ''
+const userDeleteFormState = reactive({
+  user: undefined
 })
-const userUpdateForm = reactive({
+const userUpdateFormState = reactive({
   name: '',
   document: '',
-  campus: ''
+  location: ''
 })
 
-function onSubmitAccount() {
-  console.log('Submitted form:', userAddForm)
+function onSubmitUserAdd(event: FormSubmitEvent<UserAddSchema>) {
+  console.log(event.data)
+  alert('Submitted form:')
 }
 
-function onSubmitPassword() {
-  console.log('Submitted form:', userDeleteForm)
+function onSubmitUserDelete(event: FormSubmitEvent<UserDeleteSchema>) {
+  alert('Submitted form:')
+}
+
+function onSubmitUserUpdate(event: FormSubmitEvent<UserUpdateSchema>) {
+  alert('Submitted form:')
 }
 
 import type { Avatar } from '#ui/types'
-
-const people = [
-  {
-    id: 'benjamincanac',
-    label: 'benjamincanac',
-    href: 'https://github.com/benjamincanac',
-    target: '_blank',
-    avatar: { src: 'https://avatars.githubusercontent.com/u/739984?v=4' }
-  },
-  {
-    id: 'Atinux',
-    label: 'Atinux',
-    href: 'https://github.com/Atinux',
-    target: '_blank',
-    avatar: { src: 'https://avatars.githubusercontent.com/u/904724?v=4' }
-  },
-  {
-    id: 'smarroufin',
-    label: 'smarroufin',
-    href: 'https://github.com/smarroufin',
-    target: '_blank',
-    avatar: { src: 'https://avatars.githubusercontent.com/u/7547335?v=4' }
-  },
-  {
-    id: 'nobody',
-    label: 'Nobody',
-    icon: 'i-heroicons-user-circle'
-  }
-]
-
 const selected = ref(people[0])
 </script>
 
@@ -113,7 +87,7 @@ const selected = ref(people[0])
         </template>
 
         <template #user.add="{ item }">
-          <UCard @submit.prevent="onSubmitAccount">
+          <UCard>
             <template #header>
               <p
                 class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
@@ -125,41 +99,65 @@ const selected = ref(people[0])
               </p>
             </template>
 
-            <UFormGroup label="Nombre completo" name="name" class="mb-3">
-              <UInput v-model="userAddForm.name" />
-            </UFormGroup>
-            <UFormGroup
-              label="Número de documento"
-              name="document"
-              class="mb-3"
+            <UForm
+              id="user-add-form"
+              :schema="userAddSchema"
+              :state="userAddFormState"
+              @submit="onSubmitUserAdd"
             >
-              <UInput v-model="userAddForm.document" />
-            </UFormGroup>
-            <UFormGroup label="Sede" name="campus" class="mb-3">
-              <USelectMenu
-                v-model="userAddForm.campus"
-                :options="campuses"
-                placeholder="Seleccione una sede"
-                searchable
-                searchable-placeholder="Buscar por nombre o color"
-                option-attribute="name"
-                by="id"
-                :search-attributes="['name', 'colors']"
+              <UFormGroup
+                label="Nombre completo"
+                name="name"
+                class="mb-3"
+                required
               >
-                <template #option="{ option: campus }">
-                  <span
-                    v-for="color in campus.colors"
-                    :key="color.id"
-                    class="h-2 w-2 rounded-full"
-                    :class="`bg-${color}-500 dark:bg-${color}-400`"
-                  />
-                  <span class="truncate">{{ campus.name }}</span>
-                </template>
-              </USelectMenu>
-            </UFormGroup>
+                <UInput
+                  id="name"
+                  v-model="userAddFormState.name"
+                  type="text"
+                  size="sm"
+                />
+              </UFormGroup>
+              <UFormGroup
+                label="Número de documento"
+                name="document"
+                class="mb-3"
+                required
+              >
+                <UInput
+                  id="document"
+                  v-model="userAddFormState.document"
+                  type="number"
+                  size="sm"
+                />
+              </UFormGroup>
+              <UFormGroup label="Sede" name="location" class="mb-3" required>
+                <USelectMenu
+                  v-model="userAddFormState.location"
+                  :options="locations"
+                  placeholder="Seleccione una sede"
+                  searchable
+                  searchable-placeholder="Buscar por nombre o color"
+                  option-attribute="name"
+                  by="id"
+                  :search-attributes="['name', 'colors']"
+                >
+                  <template #option="{ option: location }">
+                    <span
+                      v-for="color in location.colors"
+                      :key="color.id"
+                      class="h-2 w-2 rounded-full"
+                      :class="`bg-${color}-500 dark:bg-${color}-400`"
+                    />
+                    <span class="truncate">{{ location.name }}</span>
+                  </template>
+                </USelectMenu>
+              </UFormGroup>
+            </UForm>
 
             <template #footer>
               <UButton
+                form="user-add-form"
                 type="submit"
                 color="green"
                 variant="outline"
@@ -174,7 +172,7 @@ const selected = ref(people[0])
         </template>
 
         <template #user.delete="{ item }">
-          <UCard @submit.prevent="onSubmitPassword">
+          <UCard @submit.prevent="onSubmitUserDelete">
             <template #header>
               <h3
                 class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
@@ -216,7 +214,7 @@ const selected = ref(people[0])
         </template>
 
         <template #user.update="{ item }">
-          <UCard @submit.prevent="onSubmitAccount">
+          <UCard @submit.prevent="onSubmitUserUpdate">
             <template #header>
               <p
                 class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
@@ -230,19 +228,19 @@ const selected = ref(people[0])
             </template>
 
             <UFormGroup label="Nombre completo" name="name" class="mb-3">
-              <UInput v-model="userUpdateForm.name" />
+              <UInput v-model="userUpdateFormState.name" />
             </UFormGroup>
             <UFormGroup
               label="Número de documento"
               name="document"
               class="mb-3"
             >
-              <UInput v-model="userUpdateForm.document" />
+              <UInput v-model="userUpdateFormState.document" />
             </UFormGroup>
-            <UFormGroup label="Sede" name="campus" class="mb-3">
+            <UFormGroup label="Sede" name="location" class="mb-3">
               <USelectMenu
-                v-model="userUpdateForm.campus"
-                :options="campuses"
+                v-model="userUpdateFormState.location"
+                :options="locations"
                 placeholder="Seleccione una sede"
                 searchable
                 searchable-placeholder="Buscar por nombre o color"
@@ -250,14 +248,14 @@ const selected = ref(people[0])
                 by="id"
                 :search-attributes="['name', 'colors']"
               >
-                <template #option="{ option: campus }">
+                <template #option="{ option: location }">
                   <span
-                    v-for="color in campus.colors"
+                    v-for="color in location.colors"
                     :key="color.id"
                     class="h-2 w-2 rounded-full"
                     :class="`bg-${color}-500 dark:bg-${color}-400`"
                   />
-                  <span class="truncate">{{ campus.name }}</span>
+                  <span class="truncate">{{ location.name }}</span>
                 </template>
               </USelectMenu>
             </UFormGroup>
@@ -278,7 +276,7 @@ const selected = ref(people[0])
         </template>
 
         <template #user.query="{ item }">
-          <UCard @submit.prevent="onSubmitAccount">
+          <UCard>
             <template #header>
               <p
                 class="text-base font-semibold leading-6 text-gray-900 dark:text-white"

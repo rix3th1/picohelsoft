@@ -1,7 +1,11 @@
 <template>
   <UCard class="w-full max-w-md pt-14">
-    <SigninHeader />
+    <template #header>
+      <SigninHeader />
+    </template>
     <SigninForm />
-    <SigninFooter />
+    <template #footer>
+      <SigninFooter />
+    </template>
   </UCard>
 </template>
