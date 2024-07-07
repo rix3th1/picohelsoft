@@ -2,6 +2,7 @@
   <div class="fixed bottom-0 right-0 p-4">
     <ColorScheme>
       <USelect
+        id="color-scheme"
         v-model="$colorMode.preference"
         :options="[
           {

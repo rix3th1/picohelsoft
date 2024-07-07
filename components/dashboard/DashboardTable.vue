@@ -40,6 +40,7 @@ const items = (row: (typeof people)[0]): DropdownItem[][] => [
       class="flex justify-end py-3.5 border-b border-gray-200 dark:border-gray-700"
     >
       <UInput
+        id="search"
         icon="i-heroicons-magnifying-glass-20-solid"
         size="xl"
         trailing

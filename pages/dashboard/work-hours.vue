@@ -17,9 +17,9 @@ const schema = z.object({
 type Schema = z.output<typeof schema>
 
 const state = reactive({
-  start_time: undefined,
-  end_time: undefined,
-  location: undefined
+  start_time: '',
+  end_time: '',
+  location: locations[0]
 })
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
@@ -78,7 +78,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                 <USelectMenu
                   v-model="state.location"
                   :options="locations"
-                  placeholder="Select a person"
+                  placeholder="Seleccione una sede"
                   searchable
                   searchable-placeholder="Search by name or color"
                   option-attribute="name"

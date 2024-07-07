@@ -31,15 +31,17 @@ const people = useDashboardUsersPeople()
 const userAddFormState = reactive({
   name: '',
   document: '',
-  location: ''
+  location: locations[0]
 })
-const userDeleteFormState = reactive({
-  user: undefined
+const userDeleteFormState = reactive<{
+  user?: (typeof people)[0]
+}>({
+  user: people[0]
 })
 const userUpdateFormState = reactive({
   name: '',
   document: '',
-  location: ''
+  location: locations[0]
 })
 
 function onSubmitUserAdd(event: FormSubmitEvent<UserAddSchema>) {
@@ -48,15 +50,16 @@ function onSubmitUserAdd(event: FormSubmitEvent<UserAddSchema>) {
 }
 
 function onSubmitUserDelete(event: FormSubmitEvent<UserDeleteSchema>) {
+  console.log(event.data)
   alert('Submitted form:')
 }
 
 function onSubmitUserUpdate(event: FormSubmitEvent<UserUpdateSchema>) {
+  console.log(event.data)
   alert('Submitted form:')
 }
 
 import type { Avatar } from '#ui/types'
-const selected = ref(people[0])
 </script>
 
 <template>
@@ -112,10 +115,11 @@ const selected = ref(people[0])
                 required
               >
                 <UInput
-                  id="name"
                   v-model="userAddFormState.name"
-                  type="text"
                   size="sm"
+                  autofocus
+                  autocomplete="off"
+                  spellcheck="false"
                 />
               </UFormGroup>
               <UFormGroup
@@ -125,10 +129,10 @@ const selected = ref(people[0])
                 required
               >
                 <UInput
-                  id="document"
                   v-model="userAddFormState.document"
                   type="number"
                   size="sm"
+                  autocomplete="off"
                 />
               </UFormGroup>
               <UFormGroup label="Sede" name="location" class="mb-3" required>
@@ -161,18 +165,17 @@ const selected = ref(people[0])
                 type="submit"
                 color="green"
                 variant="outline"
+                label="Guardar usuario"
                 size="lg"
                 icon="i-heroicons-check-circle"
                 trailing
-              >
-                Guardar usuario
-              </UButton>
+              />
             </template>
           </UCard>
         </template>
 
         <template #user.delete="{ item }">
-          <UCard @submit.prevent="onSubmitUserDelete">
+          <UCard>
             <template #header>
               <h3
                 class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
@@ -185,23 +188,38 @@ const selected = ref(people[0])
               </p>
             </template>
 
-            <UInputMenu class="w-64" v-model="selected" :options="people">
-              <template #leading>
-                <UIcon
-                  v-if="selected.icon"
-                  :name="(selected.icon as string)"
-                  class="w-5 h-5"
-                />
-                <UAvatar
-                  v-else-if="selected.avatar"
-                  v-bind="(selected.avatar as Avatar)"
-                  size="2xs"
-                />
-              </template>
-            </UInputMenu>
+            <UForm
+              id="user-delete-form"
+              :schema="userDeleteSchema"
+              :state="userDeleteFormState"
+              @submit="onSubmitUserDelete"
+            >
+              <UFormGroup label="Usuario" name="user" class="mb-3" required>
+                <UInputMenu
+                  class="w-64"
+                  v-model="userDeleteFormState.user"
+                  :options="people"
+                >
+                  <template #leading>
+                    <UIcon
+                      v-if="userDeleteFormState.user?.icon"
+                      :name="(userDeleteFormState.user.icon as string)"
+                      class="w-5 h-5"
+                    />
+                    <UAvatar
+                      v-else-if="userDeleteFormState.user?.avatar"
+                      v-bind="(userDeleteFormState.user.avatar as Avatar)"
+                      size="2xs"
+                    />
+                  </template>
+                </UInputMenu>
+              </UFormGroup>
+            </UForm>
 
             <template #footer>
               <UButton
+                form="user-delete-form"
+                type="submit"
                 color="red"
                 variant="outline"
                 label="Eliminar"
@@ -214,7 +232,7 @@ const selected = ref(people[0])
         </template>
 
         <template #user.update="{ item }">
-          <UCard @submit.prevent="onSubmitUserUpdate">
+          <UCard>
             <template #header>
               <p
                 class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
@@ -227,50 +245,68 @@ const selected = ref(people[0])
               </p>
             </template>
 
-            <UFormGroup label="Nombre completo" name="name" class="mb-3">
-              <UInput v-model="userUpdateFormState.name" />
-            </UFormGroup>
-            <UFormGroup
-              label="Número de documento"
-              name="document"
-              class="mb-3"
+            <UForm
+              id="user-update-form"
+              :schema="userUpdateSchema"
+              :state="userUpdateFormState"
+              @submit="onSubmitUserUpdate"
             >
-              <UInput v-model="userUpdateFormState.document" />
-            </UFormGroup>
-            <UFormGroup label="Sede" name="location" class="mb-3">
-              <USelectMenu
-                v-model="userUpdateFormState.location"
-                :options="locations"
-                placeholder="Seleccione una sede"
-                searchable
-                searchable-placeholder="Buscar por nombre o color"
-                option-attribute="name"
-                by="id"
-                :search-attributes="['name', 'colors']"
+              <UFormGroup label="Nombre completo" name="name" class="mb-3">
+                <UInput
+                  v-model="userUpdateFormState.name"
+                  size="sm"
+                  autofocus
+                  autocomplete="off"
+                  spellcheck="false"
+                />
+              </UFormGroup>
+              <UFormGroup
+                label="Número de documento"
+                name="document"
+                class="mb-3"
               >
-                <template #option="{ option: location }">
-                  <span
-                    v-for="color in location.colors"
-                    :key="color.id"
-                    class="h-2 w-2 rounded-full"
-                    :class="`bg-${color}-500 dark:bg-${color}-400`"
-                  />
-                  <span class="truncate">{{ location.name }}</span>
-                </template>
-              </USelectMenu>
-            </UFormGroup>
+                <UInput
+                  v-model="userUpdateFormState.document"
+                  type="number"
+                  size="sm"
+                  autocomplete="off"
+                />
+              </UFormGroup>
+              <UFormGroup label="Sede" name="location" class="mb-3">
+                <USelectMenu
+                  v-model="userUpdateFormState.location"
+                  :options="locations"
+                  placeholder="Seleccione una sede"
+                  searchable
+                  searchable-placeholder="Buscar por nombre o color"
+                  option-attribute="name"
+                  by="id"
+                  :search-attributes="['name', 'colors']"
+                >
+                  <template #option="{ option: location }">
+                    <span
+                      v-for="color in location.colors"
+                      :key="color.id"
+                      class="h-2 w-2 rounded-full"
+                      :class="`bg-${color}-500 dark:bg-${color}-400`"
+                    />
+                    <span class="truncate">{{ location.name }}</span>
+                  </template>
+                </USelectMenu>
+              </UFormGroup>
+            </UForm>
 
             <template #footer>
               <UButton
+                form="user-update-form"
                 type="submit"
                 color="indigo"
                 variant="outline"
+                label="Actualizar usuario"
                 size="lg"
                 icon="i-heroicons-pencil"
                 trailing
-              >
-                Actualizar usuario
-              </UButton>
+              />
             </template>
           </UCard>
         </template>
@@ -293,8 +329,6 @@ const selected = ref(people[0])
           </UCard>
         </template>
       </UTabs>
-
-      <template #footer> </template>
     </UCard>
   </NuxtLayout>
 </template>

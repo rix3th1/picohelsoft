@@ -17,8 +17,8 @@ const schema = z.object({
 type Schema = z.output<typeof schema>
 
 const state = reactive({
-  username: undefined,
-  password: undefined
+  username: '',
+  password: ''
 })
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
