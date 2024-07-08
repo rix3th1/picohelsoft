@@ -1,0 +1,99 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model WorkHour {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  startTime  DateTime
+  endTime    DateTime
+  employeeId String   @db.ObjectId
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CurriculumVitae {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  cvUrl      String   @unique
+  employeeId String   @db.ObjectId
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Settlement {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  hoursWork Int
+  payment   Float
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Location {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  name      String     @unique
+  employees Employee[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model RestrictedAccessKey {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  key    String @unique
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model User {
+  id                   String                @id @default(auto()) @map("_id") @db.ObjectId
+  username             String                @unique
+  hashedPassword       String
+  restrictedAccessKeys RestrictedAccessKey[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Employee {
+  id               String            @id @default(auto()) @map("_id") @db.ObjectId
+  name             String
+  document         String            @unique
+  locationId       String            @db.ObjectId
+  location         Location          @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  curriculumVitaes CurriculumVitae[]
+  workHours        WorkHour[]
+  authenticators   Authenticator[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Authenticator {
+  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+  credentialID         Bytes    @unique
+  credentialPublicKey  Bytes
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String[]
+  employeeId           String   @db.ObjectId
+  employee             Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

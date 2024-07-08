@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     }
   },
   devtools: { enabled: true },
-  modules: ['@nuxt/ui', '@hebilicious/authjs-nuxt'],
+  modules: ['@prisma/nuxt', '@nuxt/ui', '@hebilicious/authjs-nuxt'],
   alias: {
     cookie: 'cookie'
   },
@@ -21,10 +21,6 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     authJs: { secret: process.env.NUXT_NEXTAUTH_SECRET },
-    github: {
-      clientId: process.env.NUXT_GITHUB_CLIENT_ID,
-      clientSecret: process.env.NUXT_GITHUB_CLIENT_SECRET
-    },
     public: {
       authJs: {
         baseUrl: process.env.NUXT_NEXTAUTH_URL,

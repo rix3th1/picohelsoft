@@ -1,5 +1,6 @@
 <template>
-  <NuxtLoadingIndicator />
   <slot />
+  <NuxtLoadingIndicator />
   <ColorSchemeSelector />
+  <UNotifications />
 </template>

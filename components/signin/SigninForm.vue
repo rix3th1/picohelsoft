@@ -21,9 +21,22 @@ const state = reactive({
   password: ''
 })
 
+const toast = useToast()
+
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  // Do something with data
-  console.log(event.data)
+  const res = await signIn('github', {
+    username: event.data.username,
+    password: event.data.password,
+    redirect: false
+  })
+
+  if (!res.ok) {
+    alert('Error al iniciar sesión')
+  }
+
+  toast.add({
+    title: 'Sesión iniciada'
+  })
 }
 </script>
 

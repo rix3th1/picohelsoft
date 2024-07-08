@@ -1,6 +1,8 @@
 import type { VerticalNavigationLink } from '#ui/types'
 
 export function useDashboardBottomAsideLinks(): VerticalNavigationLink[] {
+  const { signOut } = useAuth()
+
   return [
     {
       label: 'Horarios laborales',
@@ -9,7 +11,8 @@ export function useDashboardBottomAsideLinks(): VerticalNavigationLink[] {
     },
     {
       label: 'Cerrar sesión',
-      icon: 'i-heroicons-arrow-left-start-on-rectangle'
+      icon: 'i-heroicons-arrow-left-start-on-rectangle',
+      click: () => signOut()
     }
   ]
 }

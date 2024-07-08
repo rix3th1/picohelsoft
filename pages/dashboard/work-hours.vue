@@ -1,4 +1,6 @@
 <script setup lang="ts">
+definePageMeta({ middleware: 'auth' })
+
 import type { FormSubmitEvent } from '#ui/types'
 import { z } from 'zod'
 
