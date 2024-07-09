@@ -12,7 +12,8 @@ export default defineNuxtConfig({
     cookie: 'cookie'
   },
   authJs: {
-    guestRedirectTo: '/'
+    guestRedirectTo: '/',
+    authenticatedRedirectTo: '/dashboard'
   },
   nitro: {
     routeRules: {
