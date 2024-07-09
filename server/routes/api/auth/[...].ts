@@ -12,14 +12,11 @@ export const authOptions: AuthConfig = {
     colorScheme: 'dark',
     logo: '/logo.png'
   },
-  // pages: {
-  //   signIn: '/'
-  // },
+  pages: {
+    signIn: '/'
+  },
   providers: [
     CredentialsProvider({
-      id: 'picohelsoft-credentials',
-      name: 'Picohelsoft Login Credentials',
-      type: 'credentials',
       credentials: {
         username: {
           label: 'Username',

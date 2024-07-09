@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { signIn, signOut, session, status, cookies, getProviders } = useAuth()
+const { signIn } = useAuth()
 
 import type { FormSubmitEvent } from '#ui/types'
 import { z } from 'zod'
@@ -24,19 +24,28 @@ const state = reactive({
 const toast = useToast()
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  const res = await signIn('github', {
-    username: event.data.username,
-    password: event.data.password,
-    redirect: false
-  })
+  try {
+    await signIn('credentials', {
+      username: event.data.username,
+      password: event.data.password,
+      redirect: false
+    })
 
-  if (!res.ok) {
-    alert('Error al iniciar sesión')
+    toast.add({
+      title: 'Sesión iniciada',
+      description: 'Ahora puedes acceder a tus funciones de gestión.',
+      color: 'green'
+    })
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error({ error })
+
+      toast.add({
+        title: 'Error al iniciar sesión',
+        description: error.message
+      })
+    }
   }
-
-  toast.add({
-    title: 'Sesión iniciada'
-  })
 }
 </script>
 
