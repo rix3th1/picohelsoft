@@ -17,8 +17,8 @@ const schema = z.object({
 type Schema = z.output<typeof schema>
 
 const state = reactive({
-  username: '',
-  password: ''
+  username: undefined,
+  password: undefined
 })
 
 const toast = useToast()

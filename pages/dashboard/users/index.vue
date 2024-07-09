@@ -4,9 +4,28 @@ definePageMeta({ middleware: 'auth' })
 import type { FormSubmitEvent } from '#ui/types'
 import { z } from 'zod'
 
+const toast = useToast()
+
+const isLoading = ref(false)
+
 const userAddSchema = z.object({
-  name: z.string().min(3, 'El nombre es obligatorio'),
-  document: z.number().min(10, 'El documento es obligatorio'),
+  name: z
+    .string({
+      required_error: 'El nombre es obligatorio',
+      message: 'El nombre debe ser una cadena de texto'
+    })
+    .min(3, 'El nombre debe tener al menos 3 caracteres')
+    .max(50, 'El nombre no puede tener más de 50 caracteres'),
+  document: z
+    .number({ message: 'El documento debe ser numérico' })
+    .transform((value) => value.toString())
+    .refine((value) => value.length >= 8 && value.length <= 10, {
+      message: 'El documento debe tener entre 8 y 10 dígitos'
+    })
+    .refine((value) => !/^[0-9]{0,2}$/.test(value), {
+      message: 'El documento debe ser numérico'
+    }),
+  gender: z.object({}, { message: 'Género es obligatorio' }),
   location: z.object({}, { message: 'Sede es obligatorio' })
 })
 
@@ -19,49 +38,170 @@ const userDeleteSchema = z.object({
 type UserDeleteSchema = z.infer<typeof userDeleteSchema>
 
 const userUpdateSchema = z.object({
-  name: z.string().min(3, 'El nombre es obligatorio').optional(),
-  document: z.number().min(10, 'El documento es obligatorio').optional(),
+  name: z
+    .string({
+      required_error: 'El nombre es obligatorio',
+      message: 'El nombre debe ser una cadena de texto'
+    })
+    .min(3, 'El nombre debe tener al menos 3 caracteres')
+    .max(50, 'El nombre no puede tener más de 50 caracteres')
+    .optional(),
+  document: z
+    .number({ message: 'El documento debe ser numérico' })
+    .transform((value) => value.toString())
+    .refine((value) => value.length >= 8 && value.length <= 10, {
+      message: 'El documento debe tener entre 8 y 10 dígitos'
+    })
+    .refine((value) => !/^[0-9]{0,2}$/.test(value), {
+      message: 'El documento debe ser numérico'
+    })
+    .optional(),
+  gender: z.object({}, { message: 'Género es obligatorio' }).optional(),
   location: z.object({}, { message: 'Sede es obligatorio' }).optional()
 })
 
 type UserUpdateSchema = z.infer<typeof userUpdateSchema>
 
 const items = useDashboardTabItems()
-const locations = usePicoHelsoftLocations()
-const people = useDashboardUsersPeople()
+const { data: locations, status: locationsStatus } =
+  await usePicoHelsoftLocations()
+const { data: employees, refresh: refreshEmployees } =
+  await useDashboardEmployees()
+const genders = useGenders()
 
 const userAddFormState = reactive({
   name: '',
   document: '',
-  location: locations[0]
+  gender: '',
+  location: locations.value?.[0]
 })
-const userDeleteFormState = reactive<{
-  user?: (typeof people)[0]
-}>({
-  user: people[0]
+const userDeleteFormState = reactive({
+  user: employees.value?.[0]
 })
 const userUpdateFormState = reactive({
   name: '',
   document: '',
-  location: locations[0]
+  gender: '',
+  location: locations.value?.[0]
 })
 
-function onSubmitUserAdd(event: FormSubmitEvent<UserAddSchema>) {
-  console.log(event.data)
-  alert('Submitted form:')
+watch(userDeleteFormState, () => {
+  const employee = employees.value?.find(
+    (employee) => employee.id === userDeleteFormState.user?.id
+  )
+
+  userUpdateFormState.name = employee?.name || ''
+  userUpdateFormState.document = employee?.document || ''
+  userUpdateFormState.gender = genders.find(
+    (gender) => gender.id === employee?.gender
+  ) as any
+  userUpdateFormState.location = locations.value?.find(
+    (location) => location.id === employee?.locationId
+  )
+})
+
+async function onSubmitUserAdd(event: FormSubmitEvent<UserAddSchema>) {
+  isLoading.value = true
+  const { name, document, location, gender } = event.data
+  try {
+    const employee = await $fetch('/api/employees', {
+      method: 'POST',
+      body: {
+        name,
+        document: document.toString(),
+        locationId: (location as { id: string }).id,
+        gender: (gender as { id: string }).id
+      }
+    })
+
+    toast.add({
+      title: 'Empleado creado',
+      description: employee.name
+    })
+
+    userAddFormState.name = ''
+    userAddFormState.document = ''
+    userAddFormState.location = locations.value?.[0]
+    refreshEmployees()
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error({ error })
+
+      toast.add({
+        color: 'red',
+        title: 'Error al crear empleado',
+        description: error.message
+      })
+    }
+  } finally {
+    isLoading.value = false
+  }
 }
 
-function onSubmitUserDelete(event: FormSubmitEvent<UserDeleteSchema>) {
-  console.log(event.data)
-  alert('Submitted form:')
+async function onSubmitUserDelete(event: FormSubmitEvent<UserDeleteSchema>) {
+  isLoading.value = true
+  const { user } = event.data as any
+  try {
+    await $fetch(`/api/employees/${user.id}`, {
+      method: 'DELETE'
+    })
+
+    toast.add({
+      title: 'Empleado eliminado',
+      description: user.name
+    })
+
+    refreshEmployees()
+    userDeleteFormState.user = employees.value?.[0]
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error({ error })
+
+      toast.add({
+        color: 'red',
+        title: 'Error al eliminar empleado',
+        description: error.message
+      })
+    }
+  } finally {
+    isLoading.value = false
+  }
 }
 
-function onSubmitUserUpdate(event: FormSubmitEvent<UserUpdateSchema>) {
-  console.log(event.data)
-  alert('Submitted form:')
-}
+async function onSubmitUserUpdate(event: FormSubmitEvent<UserUpdateSchema>) {
+  isLoading.value = true
+  const { name, document, location, gender } = event.data
+  try {
+    await $fetch(`/api/employees/${userDeleteFormState.user?.id}`, {
+      method: 'PATCH',
+      body: {
+        name,
+        document: document?.toString(),
+        locationId: (location as { id: string }).id,
+        genderId: (gender as { id: string }).id
+      }
+    })
 
-import type { Avatar } from '#ui/types'
+    toast.add({
+      title: 'Empleado actualizado',
+      description: userUpdateFormState.name
+    })
+
+    refreshEmployees()
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error({ error })
+
+      toast.add({
+        color: 'red',
+        title: 'Error al actualizar empleado',
+        description: error.message
+      })
+    }
+  } finally {
+    isLoading.value = false
+  }
+}
 </script>
 
 <template>
@@ -73,7 +213,7 @@ import type { Avatar } from '#ui/types'
         <h2
           class="text-2xl font-semibold leading-10 text-gray-900 dark:text-white"
         >
-          Hola, Bienvenido a la sección de gestión de usuarios!
+          Hola, Bienvenido(a) a la sección de gestión de usuarios!
         </h2>
       </template>
 
@@ -122,6 +262,7 @@ import type { Avatar } from '#ui/types'
                   autofocus
                   autocomplete="off"
                   spellcheck="false"
+                  :disabled="isLoading"
                 />
               </UFormGroup>
               <UFormGroup
@@ -135,18 +276,44 @@ import type { Avatar } from '#ui/types'
                   type="number"
                   size="sm"
                   autocomplete="off"
+                  :disabled="isLoading"
                 />
+              </UFormGroup>
+              <UFormGroup label="Género" name="gender" class="mb-3" required>
+                <USelectMenu
+                  v-model="userAddFormState.gender"
+                  :options="[...genders]"
+                  placeholder="Seleccione un género"
+                  searchable
+                  searchable-placeholder="Buscar por nombre o color"
+                  option-attribute="label"
+                  by="value"
+                  :search-attributes="['label', 'colors']"
+                  :disabled="isLoading"
+                >
+                  <template #option="{ option: gender }">
+                    <span
+                      v-for="color in gender.colors"
+                      :key="color.id"
+                      class="h-2 w-2 rounded-full"
+                      :class="`bg-${color}-500 dark:bg-${color}-400`"
+                    />
+                    <span class="truncate">{{ gender.label }}</span>
+                  </template>
+                </USelectMenu>
               </UFormGroup>
               <UFormGroup label="Sede" name="location" class="mb-3" required>
                 <USelectMenu
                   v-model="userAddFormState.location"
-                  :options="locations"
+                  :options="[...locations]"
                   placeholder="Seleccione una sede"
                   searchable
                   searchable-placeholder="Buscar por nombre o color"
                   option-attribute="name"
                   by="id"
                   :search-attributes="['name', 'colors']"
+                  :disabled="isLoading"
+                  :loading="locationsStatus === 'pending'"
                 >
                   <template #option="{ option: location }">
                     <span
@@ -163,6 +330,7 @@ import type { Avatar } from '#ui/types'
 
             <template #footer>
               <UButton
+                :loading="isLoading"
                 form="user-add-form"
                 type="submit"
                 color="green"
@@ -200,19 +368,16 @@ import type { Avatar } from '#ui/types'
                 <UInputMenu
                   class="w-64"
                   v-model="userDeleteFormState.user"
-                  :options="people"
+                  :options="
+                    [...employees].map((employee) => ({
+                      id: employee.id,
+                      label: employee.name
+                    }))
+                  "
+                  :disabled="isLoading"
                 >
                   <template #leading>
-                    <UIcon
-                      v-if="userDeleteFormState.user?.icon"
-                      :name="(userDeleteFormState.user.icon as string)"
-                      class="w-5 h-5"
-                    />
-                    <UAvatar
-                      v-else-if="userDeleteFormState.user?.avatar"
-                      v-bind="(userDeleteFormState.user.avatar as Avatar)"
-                      size="2xs"
-                    />
+                    <UIcon name="i-heroicons-user-circle" class="w-5 h-5" />
                   </template>
                 </UInputMenu>
               </UFormGroup>
@@ -228,6 +393,7 @@ import type { Avatar } from '#ui/types'
                 icon="i-heroicons-trash"
                 size="lg"
                 trailing
+                :loading="isLoading"
               />
             </template>
           </UCard>
@@ -253,6 +419,23 @@ import type { Avatar } from '#ui/types'
               :state="userUpdateFormState"
               @submit="onSubmitUserUpdate"
             >
+              <UFormGroup label="Usuario" name="user" class="mb-10" required>
+                <UInputMenu
+                  class="w-64"
+                  v-model="userDeleteFormState.user"
+                  :options="
+                    [...employees].map((employee) => ({
+                      id: employee.id,
+                      label: employee.name
+                    }))
+                  "
+                  :disabled="isLoading"
+                >
+                  <template #leading>
+                    <UIcon name="i-heroicons-user-circle" class="w-5 h-5" />
+                  </template>
+                </UInputMenu>
+              </UFormGroup>
               <UFormGroup label="Nombre completo" name="name" class="mb-3">
                 <UInput
                   v-model="userUpdateFormState.name"
@@ -260,6 +443,7 @@ import type { Avatar } from '#ui/types'
                   autofocus
                   autocomplete="off"
                   spellcheck="false"
+                  :disabled="isLoading"
                 />
               </UFormGroup>
               <UFormGroup
@@ -272,18 +456,43 @@ import type { Avatar } from '#ui/types'
                   type="number"
                   size="sm"
                   autocomplete="off"
+                  :disabled="isLoading"
                 />
+              </UFormGroup>
+              <UFormGroup label="Género" name="gender" class="mb-3">
+                <USelectMenu
+                  v-model="userUpdateFormState.gender"
+                  :options="[...genders]"
+                  placeholder="Seleccione un género"
+                  searchable
+                  searchable-placeholder="Buscar por nombre o color"
+                  option-attribute="label"
+                  by="value"
+                  :search-attributes="['label', 'colors']"
+                  :disabled="isLoading"
+                >
+                  <template #option="{ option: gender }">
+                    <span
+                      v-for="color in gender.colors"
+                      :key="color.id"
+                      class="h-2 w-2 rounded-full"
+                      :class="`bg-${color}-500 dark:bg-${color}-400`"
+                    />
+                    <span class="truncate">{{ gender.label }}</span>
+                  </template>
+                </USelectMenu>
               </UFormGroup>
               <UFormGroup label="Sede" name="location" class="mb-3">
                 <USelectMenu
                   v-model="userUpdateFormState.location"
-                  :options="locations"
+                  :options="[...locations]"
                   placeholder="Seleccione una sede"
                   searchable
                   searchable-placeholder="Buscar por nombre o color"
                   option-attribute="name"
                   by="id"
                   :search-attributes="['name', 'colors']"
+                  :disabled="isLoading"
                 >
                   <template #option="{ option: location }">
                     <span
@@ -308,6 +517,7 @@ import type { Avatar } from '#ui/types'
                 size="lg"
                 icon="i-heroicons-pencil"
                 trailing
+                :loading="isLoading"
               />
             </template>
           </UCard>
@@ -327,7 +537,7 @@ import type { Avatar } from '#ui/types'
               </p>
             </template>
 
-            <DashboardTable called-from="users" />
+            <DashboardEmployeesTable />
           </UCard>
         </template>
       </UTabs>

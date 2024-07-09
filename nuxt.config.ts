@@ -26,6 +26,11 @@ export default defineNuxtConfig({
         baseUrl: process.env.NUXT_NEXTAUTH_URL,
         verifyClientOnEveryRequest: true
       }
+    },
+    webauthn: {
+      rpName: 'Picohelsoft',
+      rpID: new URL(process.env.NUXT_NEXTAUTH_URL!).hostname,
+      origin: process.env.NUXT_NEXTAUTH_URL!
     }
   },
   compatibilityDate: '2024-07-06'

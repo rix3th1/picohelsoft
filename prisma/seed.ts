@@ -10,9 +10,9 @@ async function main() {
 
   const locations = await prisma.location.createMany({
     data: [
-      { name: 'Espinal Centro' },
-      { name: 'Espinal Pijaos Mall' },
-      { name: 'Ibagué' }
+      { name: 'Espinal Centro', colors: ['red', 'yellow'] },
+      { name: 'Espinal Pijaos Mall', colors: ['blue', 'yellow'] },
+      { name: 'Ibagué', colors: ['green', 'blue'] }
     ]
   })
 

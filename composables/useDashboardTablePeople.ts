@@ -1,46 +1,16 @@
 export function useDashboardTablePeople() {
-  return [
-    {
-      id: 1,
-      name: 'Lindsay Walton',
-      title: 'Front-end Developer',
-      email: 'lindsay.walton@example.com',
-      role: 'Member'
-    },
-    {
-      id: 2,
-      name: 'Courtney Henry',
-      title: 'Designer',
-      email: 'courtney.henry@example.com',
-      role: 'Admin'
-    },
-    {
-      id: 3,
-      name: 'Tom Cook',
-      title: 'Director of Product',
-      email: 'tom.cook@example.com',
-      role: 'Member'
-    },
-    {
-      id: 4,
-      name: 'Whitney Francis',
-      title: 'Copywriter',
-      email: 'whitney.francis@example.com',
-      role: 'Admin'
-    },
-    {
-      id: 5,
-      name: 'Leonard Krasner',
-      title: 'Senior Designer',
-      email: 'leonard.krasner@example.com',
-      role: 'Owner'
-    },
-    {
-      id: 6,
-      name: 'Floyd Miles',
-      title: 'Principal Designer',
-      email: 'floyd.miles@example.com',
-      role: 'Member'
+  return useFetch('/api/work-hours', {
+    transform: (workHours) => {
+      return workHours.map((workHour) => ({
+        id: workHour.employeeId,
+        employeeName: workHour.employee.name,
+        document: workHour.employee.document,
+        locationName: workHour.employee.location.name,
+        startTime: new Date(workHour.startTime).toLocaleTimeString('es-CO'),
+        endTime: workHour.endTime
+          ? new Date(workHour.endTime).toLocaleTimeString('es-CO')
+          : undefined
+      }))
     }
-  ]
+  })
 }

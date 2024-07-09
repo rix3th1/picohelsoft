@@ -10,12 +10,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Gender {
+  MALE
+  FEMALE
+}
+
 model WorkHour {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  startTime  DateTime
-  endTime    DateTime
-  employeeId String   @db.ObjectId
-  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  startTime   DateTime
+  endTime     DateTime?
+  hoursWorked Int       @default(0)
+  employeeId  String    @db.ObjectId
+  employee    Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -43,6 +49,7 @@ model Settlement {
 model Location {
   id        String     @id @default(auto()) @map("_id") @db.ObjectId
   name      String     @unique
+  colors    String[]
   employees Employee[]
 
   createdAt DateTime @default(now())
@@ -73,11 +80,14 @@ model Employee {
   id               String            @id @default(auto()) @map("_id") @db.ObjectId
   name             String
   document         String            @unique
+  gender           Gender
   locationId       String            @db.ObjectId
   location         Location          @relation(fields: [locationId], references: [id], onDelete: Cascade)
   curriculumVitaes CurriculumVitae[]
   workHours        WorkHour[]
   authenticators   Authenticator[]
+  currentChallenge String?
+  is2FAEnabled     Boolean           @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

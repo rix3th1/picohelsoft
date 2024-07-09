@@ -46,7 +46,7 @@ export const authOptions: AuthConfig = {
 
           const passwordMatches = await argon2.verify(
             existingUser.hashedPassword,
-            `${credentials.password}`
+            credentials.password as string
           )
 
           if (!passwordMatches) return null
