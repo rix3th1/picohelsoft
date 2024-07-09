@@ -1,6 +1,8 @@
 import type { VerticalNavigationLink } from '#ui/types'
 
-export function useDashboardTopAsideLinks(): VerticalNavigationLink[] {
+export async function useDashboardTopAsideLinks(): Promise<
+  VerticalNavigationLink[]
+> {
   return [
     {
       label: 'Inicio',
@@ -15,17 +17,17 @@ export function useDashboardTopAsideLinks(): VerticalNavigationLink[] {
     {
       label: 'Hojas de vida',
       icon: 'i-heroicons-identification',
-      to: '/dashboard/cv'
+      click: () => requestAdminAccess('/dashboard/cv')
     },
     {
       label: 'Gestión de usuarios',
       icon: 'i-heroicons-users',
-      to: '/dashboard/users'
+      click: () => requestAdminAccess('/dashboard/users')
     },
     {
       label: 'Liquidaciones',
       icon: 'i-heroicons-currency-dollar',
-      to: '/dashboard/payments'
+      click: () => requestAdminAccess('/dashboard/payments')
     }
   ]
 }
