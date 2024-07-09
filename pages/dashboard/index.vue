@@ -5,7 +5,6 @@ definePageMeta({ middleware: 'auth' })
 <template>
   <NuxtLayout name="dashboard">
     <DashboardTitle title="BIENVENIDOS A PICOHELSOFT" />
-    <DashboardActionButtonGroup />
     <DashboardWorkHoursTable />
   </NuxtLayout>
 </template>
