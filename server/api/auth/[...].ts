@@ -75,7 +75,7 @@ export const authOptions: AuthConfig = {
       return session
     }
   },
-  skipCSRFCheck
+  skipCSRFCheck: skipCSRFCheck
 }
 
 export default NuxtAuthHandler(authOptions, runtimeConfig)
