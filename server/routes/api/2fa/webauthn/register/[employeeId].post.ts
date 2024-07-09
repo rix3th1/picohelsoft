@@ -3,6 +3,7 @@ import {
   verifyRegistrationResponse
 } from '@simplewebauthn/server'
 import type { RegistrationResponseJSON } from '@simplewebauthn/typescript-types'
+import prisma from '~/lib/prisma'
 
 /**
  * [POST]: /api/2fa/webauthn/register/{employeeId}

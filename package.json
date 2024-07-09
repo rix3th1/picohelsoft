@@ -7,7 +7,7 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare && prisma generate"
   },
   "prisma": {
     "seed": "bun run prisma/seed.ts"
@@ -19,7 +19,7 @@
     "@simplewebauthn/typescript-types": "^8.3.4",
     "@types/pdfkit": "^0.13.4",
     "nuxt": "^3.12.3",
-    "prisma": "^5.16.1"
+    "prisma": "^5.16.2"
   },
   "trustedDependencies": [
     "@prisma/client",
@@ -28,13 +28,11 @@
     "cbor-extract",
     "esbuild",
     "prisma",
-    "protobufjs",
     "vue-demi"
   ],
   "dependencies": {
     "@auth/core": "^0.17.0",
     "@hebilicious/authjs-nuxt": "latest",
-    "@prisma/nuxt": "^0.0.30",
     "@simplewebauthn/browser": "^8.3.4",
     "@simplewebauthn/server": "^8.3.5",
     "argon2": "^0.40.3",

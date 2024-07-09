@@ -3,6 +3,7 @@ import {
   verifyAuthenticationResponse
 } from '@simplewebauthn/server'
 import type { AuthenticationResponseJSON } from '@simplewebauthn/typescript-types'
+import prisma from '~/lib/prisma'
 import { getAuthenticatorByCredentialId } from '~/lib/webauthn'
 import type { Authenticator } from '~/webauthn'
 

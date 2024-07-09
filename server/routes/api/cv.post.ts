@@ -1,4 +1,5 @@
 import { uploadFile } from '~/lib/cloudinary'
+import prisma from '~/lib/prisma'
 
 export default defineEventHandler(async (event) => {
   const formData = await readFormData(event)

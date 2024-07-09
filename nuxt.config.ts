@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     }
   },
   devtools: { enabled: true },
-  modules: ['@prisma/nuxt', '@nuxt/ui', '@hebilicious/authjs-nuxt'],
+  modules: ['@nuxt/ui', '@hebilicious/authjs-nuxt'],
   alias: {
     cookie: 'cookie'
   },

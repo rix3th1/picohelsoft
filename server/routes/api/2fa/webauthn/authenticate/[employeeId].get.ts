@@ -1,5 +1,6 @@
 import { generateAuthenticationOptions } from '@simplewebauthn/server'
 import type { PublicKeyCredentialRequestOptionsJSON } from '@simplewebauthn/typescript-types'
+import prisma from '~/lib/prisma'
 import { getPublicKeyCredentialDescriptor } from '~/lib/webauthn'
 
 /**

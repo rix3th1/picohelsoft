@@ -1,5 +1,6 @@
 import { Readable } from 'stream'
 import { generatePDF } from '~/lib/pdfkit'
+import prisma from '~/lib/prisma'
 
 export default defineEventHandler(async (event) => {
   const employeeId = getRouterParam(event, 'employeeId')
