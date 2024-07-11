@@ -1,8 +1,20 @@
 import {
-  v2 as cloudinary,
+  v2,
   type UploadApiErrorResponse,
   type UploadApiResponse
 } from 'cloudinary'
+
+function configCloudinary() {
+  const {
+    cloudinary: { cloudName, apiKey, apiSecret }
+  } = useRuntimeConfig()
+
+  v2.config({
+    cloud_name: cloudName,
+    api_key: apiKey,
+    api_secret: apiSecret
+  })
+}
 
 export async function uploadFile(
   file: File
@@ -10,14 +22,10 @@ export async function uploadFile(
   const bytes = await file.arrayBuffer()
   const buffer = Buffer.from(bytes)
 
-  cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET
-  })
+  configCloudinary()
 
   return new Promise((resolve, reject) => {
-    cloudinary.uploader
+    v2.uploader
       .upload_stream((error, result) => {
         if (error) return reject(error)
         resolve(result)

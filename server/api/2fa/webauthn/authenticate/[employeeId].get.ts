@@ -8,7 +8,9 @@ import { getPublicKeyCredentialDescriptor } from '~/lib/webauthn'
  * Endpoint for generate authentication options for WebAuthn.
  */
 export default defineEventHandler(async (event) => {
-  const runtimeConfig = useRuntimeConfig()
+  const {
+    webauthn: { rpID }
+  } = useRuntimeConfig()
 
   const employeeId = getRouterParam(event, 'employeeId')
   if (!employeeId) {
@@ -33,7 +35,7 @@ export default defineEventHandler(async (event) => {
 
   const options: PublicKeyCredentialRequestOptionsJSON =
     await generateAuthenticationOptions({
-      rpID: runtimeConfig.webauthn.rpID,
+      rpID,
       // Require users to use a previously-registered authenticator
       allowCredentials: getPublicKeyCredentialDescriptor(
         employeeAuthenticators

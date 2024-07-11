@@ -8,7 +8,9 @@ import { getPublicKeyCredentialDescriptor } from '~/lib/webauthn'
  * Endpoint for generate registration options for WebAuthn.
  */
 export default defineEventHandler(async (event) => {
-  const runtimeConfig = useRuntimeConfig()
+  const {
+    webauthn: { rpID, rpName }
+  } = useRuntimeConfig()
 
   const employeeId = getRouterParam(event, 'employeeId')
 
@@ -25,8 +27,8 @@ export default defineEventHandler(async (event) => {
 
   const options: PublicKeyCredentialCreationOptionsJSON =
     await generateRegistrationOptions({
-      rpName: runtimeConfig.webauthn.rpName,
-      rpID: runtimeConfig.webauthn.rpID,
+      rpName,
+      rpID,
       userID: employeeId ?? '',
       userName: existingEmployee?.name ?? '',
       // Don't prompt users for additional information about the authenticator

@@ -10,7 +10,9 @@ import prisma from '~/lib/prisma'
  * Endpoint for verify registration options for WebAuthn.
  */
 export default defineEventHandler(async (event) => {
-  const runtimeConfig = useRuntimeConfig()
+  const {
+    webauthn: { rpID }
+  } = useRuntimeConfig()
 
   const employeeId = getRouterParam(event, 'employeeId')
   if (!employeeId) {
@@ -35,7 +37,7 @@ export default defineEventHandler(async (event) => {
         response,
         expectedChallenge,
         expectedOrigin: origin,
-        expectedRPID: runtimeConfig.webauthn.rpID
+        expectedRPID: rpID
       })
 
     if (!verification) {

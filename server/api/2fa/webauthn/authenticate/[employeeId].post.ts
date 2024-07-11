@@ -12,7 +12,9 @@ import type { Authenticator } from '~/webauthn'
  * Endpoint for verify authentication options for WebAuthn.
  */
 export default defineEventHandler(async (event) => {
-  const runtimeConfig = useRuntimeConfig()
+  const {
+    webauthn: { rpID }
+  } = useRuntimeConfig()
 
   const employeeId = getRouterParam(event, 'employeeId')
   if (!employeeId) {
@@ -55,7 +57,7 @@ export default defineEventHandler(async (event) => {
       response: authenticationResponse,
       expectedChallenge,
       expectedOrigin: origin,
-      expectedRPID: runtimeConfig.webauthn.rpID,
+      expectedRPID: rpID,
       authenticator: authenticatorFound
     })
   } catch (error) {

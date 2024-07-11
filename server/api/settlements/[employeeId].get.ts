@@ -41,8 +41,10 @@ export default defineEventHandler(async (event) => {
     }
   })
 
+  const runtimeConfig = useRuntimeConfig()
+
   // Calculate salary based on worked hours and fixed value per hour
-  const valuePerHour = parseInt(process.env.SETTLEMENT_VALUE_PER_HOUR!)
+  const valuePerHour = parseInt(runtimeConfig.admin.settlementValuePerHour)
   const data = workHours.map((hours) => ({
     hoursWorked: hours.hoursWorked,
     valuePerHour: valuePerHour
