@@ -1,5 +1,4 @@
 import { NuxtAuthHandler } from '#auth'
-import { skipCSRFCheck } from '@auth/core'
 import CredentialsProvider from '@auth/core/providers/credentials'
 import type { AuthConfig, User } from '@auth/core/types'
 import argon2 from 'argon2'
@@ -74,8 +73,7 @@ export const authOptions: AuthConfig = {
       }
       return session
     }
-  },
-  skipCSRFCheck: skipCSRFCheck
+  }
 }
 
 export default NuxtAuthHandler(authOptions, runtimeConfig)
