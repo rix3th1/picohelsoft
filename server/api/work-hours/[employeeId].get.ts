@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
   const employeeId = getRouterParam(event, 'employeeId')
 
   try {
-    const workHour = await prisma.workHour.findFirstOrThrow({
+    const workHour = await prisma.workHour.findFirst({
       where: {
         startTime: {
           lte: new Date()

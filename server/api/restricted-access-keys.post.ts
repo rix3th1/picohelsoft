@@ -5,10 +5,9 @@ export default defineEventHandler(async (event) => {
   try {
     const body = await readBody<RestrictedAccessKey>(event)
 
-    const restrictedAccessKey =
-      await prisma.restrictedAccessKey.findFirstOrThrow({
-        where: { key: body.key }
-      })
+    const restrictedAccessKey = await prisma.restrictedAccessKey.findFirst({
+      where: { key: body.key }
+    })
 
     return {
       verified: restrictedAccessKey?.key === body.key

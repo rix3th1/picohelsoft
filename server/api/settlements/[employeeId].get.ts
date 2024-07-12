@@ -7,13 +7,20 @@ export default defineEventHandler(async (event) => {
 
   try {
     // Fetch employee details including name and document
-    const employee = await prisma.employee.findUniqueOrThrow({
+    const employee = await prisma.employee.findUnique({
       where: { id: employeeId },
       select: {
         name: true,
         document: true
       }
     })
+
+    if (!employee) {
+      throw createError({
+        statusCode: 404,
+        message: 'Empleado no encontrado.'
+      })
+    }
 
     // Get work hours from the beginning of the month until today
     const startDate = new Date(

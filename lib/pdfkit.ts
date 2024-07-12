@@ -23,7 +23,7 @@ export async function generatePDF(
 
     const baseUrl = process.env.BASE_URL
     ;(async function () {
-      const res = await fetch(`${baseUrl} /logo.png`)
+      const res = await fetch(`${baseUrl}/logo.png`)
       const image = await res.arrayBuffer()
 
       function addHeader(doc: PDFDocument) {
