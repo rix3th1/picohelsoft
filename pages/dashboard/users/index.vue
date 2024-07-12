@@ -285,7 +285,7 @@ async function onSubmitUserUpdate(event: FormSubmitEvent<UserUpdateSchema>) {
               <UFormGroup label="Género" name="gender" class="mb-3" required>
                 <USelectMenu
                   v-model="userAddFormState.gender"
-                  :options="[...genders]"
+                  :options="genders ?? []"
                   placeholder="Seleccione un género"
                   searchable
                   searchable-placeholder="Buscar por nombre o color"
@@ -308,7 +308,7 @@ async function onSubmitUserUpdate(event: FormSubmitEvent<UserUpdateSchema>) {
               <UFormGroup label="Sede" name="location" class="mb-3" required>
                 <USelectMenu
                   v-model="userAddFormState.location"
-                  :options="[...locations]"
+                  :options="locations ?? []"
                   placeholder="Seleccione una sede"
                   searchable
                   searchable-placeholder="Buscar por nombre o color"
@@ -372,7 +372,7 @@ async function onSubmitUserUpdate(event: FormSubmitEvent<UserUpdateSchema>) {
                   class="w-64"
                   v-model="userDeleteFormState.user"
                   :options="
-                    [...employees].map((employee) => ({
+                    employees?.map((employee) => ({
                       id: employee.id,
                       label: employee.name
                     }))
@@ -427,7 +427,7 @@ async function onSubmitUserUpdate(event: FormSubmitEvent<UserUpdateSchema>) {
                   class="w-64"
                   v-model="userDeleteFormState.user"
                   :options="
-                    [...employees].map((employee) => ({
+                    employees?.map((employee) => ({
                       id: employee.id,
                       label: employee.name
                     }))
@@ -465,7 +465,7 @@ async function onSubmitUserUpdate(event: FormSubmitEvent<UserUpdateSchema>) {
               <UFormGroup label="Género" name="gender" class="mb-3">
                 <USelectMenu
                   v-model="userUpdateFormState.gender"
-                  :options="[...genders]"
+                  :options="genders ?? []"
                   placeholder="Seleccione un género"
                   searchable
                   searchable-placeholder="Buscar por nombre o color"
@@ -488,7 +488,7 @@ async function onSubmitUserUpdate(event: FormSubmitEvent<UserUpdateSchema>) {
               <UFormGroup label="Sede" name="location" class="mb-3">
                 <USelectMenu
                   v-model="userUpdateFormState.location"
-                  :options="[...locations]"
+                  :options="locations ?? []"
                   placeholder="Seleccione una sede"
                   searchable
                   searchable-placeholder="Buscar por nombre o color"

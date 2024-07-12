@@ -22,7 +22,7 @@ const pageCount = 5
       />
     </div>
 
-    <UTable :rows="[...filteredRows]" :columns="columns" ref="dataTable" />
+    <UTable :rows="filteredRows ?? []" :columns="columns" ref="dataTable" />
 
     <div
       class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700"

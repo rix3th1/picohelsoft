@@ -109,7 +109,7 @@ const items = (row: any): DropdownItem[][] => [
       />
     </div>
 
-    <UTable :rows="[...filteredRows]" :columns="columns">
+    <UTable :rows="filteredRows ?? []" :columns="columns">
       <template #actions-data="{ row }">
         <UDropdown :items="items(row)">
           <UButton
