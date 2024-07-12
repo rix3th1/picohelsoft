@@ -540,6 +540,9 @@ async function onSubmitUserUpdate(event: FormSubmitEvent<UserUpdateSchema>) {
               </p>
             </template>
 
+            <DashboardSecurityPinModal
+              label="Por favor, crea tu pin de seguridad"
+            />
             <DashboardEmployeesTable />
           </UCard>
         </template>
