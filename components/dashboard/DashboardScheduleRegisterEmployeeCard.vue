@@ -5,53 +5,13 @@ const props = defineProps<{
   employee: Employee
 }>()
 
-const isLoadingStart = ref(false)
-const isLoadingEnd = ref(false)
-const toast = useToast()
+const isOpen = useModalVerifySecurityPinOpen()
+isOpen.value.employeeId = props.employee.id
+const scheduleType = useScheduleType()
 
-const { data: workHour, status } = await useWorkHour(props.employee.id)
-const isNewSchedule: boolean = !!workHour.value
-
-const registerWorkHour = async (type: 'start' | 'end') => {
-  type === 'end' ? (isLoadingEnd.value = true) : (isLoadingStart.value = true)
-  try {
-    if (type === 'start' && !workHour.value) {
-      await $fetch('/api/work-hours', {
-        method: 'POST',
-        body: {
-          startTime: new Date().toISOString(),
-          employeeId: props.employee.id
-        }
-      })
-    } else if (type === 'end' && workHour.value) {
-      await $fetch(`/api/work-hours/${(workHour.value as any).id}`, {
-        method: 'PATCH',
-        body: {
-          endTime: new Date().toISOString(),
-          employeeId: props.employee.id
-        }
-      })
-    }
-
-    toast.add({
-      title: 'Horario registrado',
-      description: 'El horario ha sido registrado correctamente',
-      color: 'green'
-    })
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error({ error })
-
-      toast.add({
-        color: 'red',
-        title: 'Error al registrar horario',
-        description: error.message
-      })
-    }
-  } finally {
-    isLoadingEnd.value = false
-    isLoadingStart.value = false
-  }
+const registerWorkHour = (type: 'start' | 'end') => {
+  isOpen.value.isOpen = true
+  scheduleType.value = type
 }
 </script>
 
@@ -79,7 +39,6 @@ const registerWorkHour = async (type: 'start' | 'end') => {
             size="lg"
             icon="i-heroicons-lock-closed"
             trailing
-            :loading="status === 'pending' || isLoadingStart"
           />
         </UTooltip>
         <UTooltip
@@ -92,7 +51,6 @@ const registerWorkHour = async (type: 'start' | 'end') => {
             label="SALIDA"
             size="lg"
             icon="i-heroicons-lock-closed"
-            :loading="status === 'pending' || isLoadingEnd"
           />
         </UTooltip>
       </DashboardUserCardFooter>

@@ -21,7 +21,7 @@ const filteredRows = computed(() => {
 const page = ref(1)
 const pageCount = 5
 
-const isOpen = useModalSecurityPinOpen()
+const isOpen = useModalNewSecurityPinOpen()
 
 const employeeIdAux = useEmployeeId()
 

@@ -10,6 +10,8 @@ const schema = z.object({
     })
 })
 
+const toast = useToast()
+
 type Schema = z.infer<typeof schema>
 
 const state = reactive({
@@ -17,30 +19,58 @@ const state = reactive({
 })
 
 const isLoading = ref(false)
-const isOpen = useModalNewSecurityPinOpen()
-const toast = useToast()
-const employeeIdAux = useEmployeeId()
+const isOpen = useModalVerifySecurityPinOpen()
+const scheduleType = useScheduleType()
+
+const { data: workHour, status } = await useWorkHour(isOpen.value.employeeId)
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const { pin } = event.data
-  const employeeId = employeeIdAux.value
 
   isLoading.value = true
   try {
-    await $fetch('/api/security-pins', {
-      method: 'POST',
-      body: {
-        pin,
-        employeeId
-      }
+    const response = await $fetch(`/api/security-pins/${pin}`, {
+      method: 'POST'
     })
+
+    if (!response.verified) {
+      toast.add({
+        color: 'red',
+        title: 'Error al verificar el pin de seguridad',
+        description: 'El pin de seguridad no es correcto'
+      })
+      return
+    }
 
     toast.add({
-      title: 'Pin de seguridad creado!',
-      description: `Se ha creado pin de seguridad para el empleado con ID ${employeeIdAux.value}`,
-      color: 'green'
+      color: 'green',
+      title: 'Pin de seguridad verificado',
+      description: 'El pin de seguridad es correcto'
     })
 
+    if (scheduleType.value === 'start') {
+      await $fetch('/api/work-hours', {
+        method: 'POST',
+        body: {
+          startTime: new Date().toISOString(),
+          employeeId: isOpen.value.employeeId
+        }
+      })
+    } else if (scheduleType.value === 'end') {
+      await $fetch(`/api/work-hours/${(workHour.value as any).id}`, {
+        method: 'PATCH',
+        body: {
+          endTime: new Date().toISOString(),
+          employeeId: isOpen.value.employeeId
+        }
+      })
+    }
+
+    toast.add({
+      title: 'Horario registrado',
+      description: 'El horario ha sido registrado correctamente',
+      color: 'green'
+    })
     isOpen.value.isOpen = false
   } catch (error) {
     if (error instanceof Error) {
@@ -48,13 +78,12 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
       toast.add({
         color: 'red',
-        title: 'Error al crear el pin de seguridad',
+        title: 'Error al registrar horario',
         description: error.message
       })
     }
   } finally {
     isLoading.value = false
-    employeeIdAux.value = ''
     state.pin = undefined
   }
 }
@@ -73,7 +102,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           <h3
             class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
           >
-            Por favor, crea tu pin de seguridad
+            Por favor, ingrese su pin de seguridad
           </h3>
           <UButton
             color="gray"
