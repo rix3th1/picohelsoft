@@ -83,13 +83,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             >
               Acceso restringido a administradores de Picohelsoft
             </h3>
-            <UButton
-              color="gray"
-              variant="ghost"
-              icon="i-heroicons-x-mark-20-solid"
-              class="-my-1"
-              @click="isOpen.isOpen = false"
-            />
           </div>
         </template>
 
