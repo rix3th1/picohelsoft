@@ -41,6 +41,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       })
       router.push(isOpen.value.to)
       isOpen.value.isOpen = false
+      state.key = undefined
       return
     }
 
