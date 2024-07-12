@@ -2,7 +2,7 @@
 const isOpen = useModalAccessOpen()
 const toast = useToast()
 const router = useRouter()
-const isloading = ref(false)
+const isLoading = ref(false)
 
 import type { FormSubmitEvent } from '#ui/types'
 import { z } from 'zod'
@@ -24,7 +24,7 @@ const state = reactive({
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const { key } = event.data
-  isloading.value = true
+  isLoading.value = true
   try {
     const response = await $fetch('/api/restricted-access-keys', {
       method: 'POST',
@@ -61,7 +61,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     }
   } finally {
     isOpen.value.isOpen = false
-    isloading.value = false
+    isLoading.value = false
   }
 }
 </script>
@@ -120,7 +120,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             color="primary"
             size="xl"
             icon="i-heroicons-key"
-            :loading="isloading"
+            :loading="isLoading"
           >
             Aceptar
           </UButton>
