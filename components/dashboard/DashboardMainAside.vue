@@ -75,7 +75,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       prevent-close
       :ui="{
         overlay: {
-          base: 'fixed inset-0 transition-opacity',
           background: 'bg-transparent backdrop-blur-md'
         }
       }"
