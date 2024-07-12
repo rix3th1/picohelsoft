@@ -18,7 +18,7 @@ watch(modalAccess.value, (value) => {
         <img
           src="/logo.png"
           alt="Logo"
-          class="w-12 h-12 rounded-full mr-4 cursor-pointer"
+          class="w-12 h-12 rounded-full mr-4 cursor-pointer hover:opacity-80 hover:shadow-md transition duration-300 ease-in-out"
         />
       </UTooltip>
       <span class="text-white text-xl font-semibold">PICOHELSOFT</span>
