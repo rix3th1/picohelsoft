@@ -11,7 +11,9 @@ const { data: employees } = await useDashboardEmployees()
   <NuxtLayout name="dashboard">
     <DashboardTitle title="LIQUIDACIÓN DE PAGOS" />
     <DashboardNoEmployeesAlert :show="!employees?.length" />
-    <section class="grid place-items-center grid-cols-4 gap-4 items-center">
+    <section
+      class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+    >
       <DashboardPaymentsEmployeeCard
         v-for="employee in employees"
         :key="employee.id"
