@@ -21,10 +21,10 @@ watch(modalAccess.value, (value) => {
           class="w-12 h-12 rounded-full mr-4 cursor-pointer hover:opacity-80 hover:shadow-md transition duration-300 ease-in-out"
         />
       </UTooltip>
-      <span class="text-white text-xl font-semibold">PICOHELSOFT</span>
+      <span class="text-white text-md font-semibold">PICOHELSOFT</span>
     </div>
     <div>
-      <button class="bg-purple-700 text-white px-4 py-2 rounded">
+      <button class="bg-purple-700 text-white text-md px-4 py-2 rounded">
         PICOHELSOFT
       </button>
     </div>
@@ -43,7 +43,7 @@ watch(modalAccess.value, (value) => {
         <div class="flex items-center justify-between">
           <img src="/logo.png" alt="Logo" class="w-12 h-12 rounded-full" />
           <h3
-            class="text-xl font-semibold leading-6 text-gray-900 dark:text-white"
+            class="text-md font-semibold leading-6 text-gray-900 dark:text-white"
           >
             PICOHELSOFT
           </h3>
@@ -57,7 +57,7 @@ watch(modalAccess.value, (value) => {
         </div>
       </template>
 
-      <DashboardMainAside />
+      <DashboardMainAside class="py-5" />
     </UCard>
   </USlideover>
 </template>
