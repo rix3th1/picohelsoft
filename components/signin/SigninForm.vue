@@ -2,7 +2,7 @@
 import { storeToRefs } from 'pinia'
 
 const { signIn } = useAuthStore()
-const { authenticated } = storeToRefs(useAuthStore())
+const { authenticated, loading } = storeToRefs(useAuthStore())
 
 const router = useRouter()
 
@@ -68,6 +68,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         autofocus
         autocomplete="username"
         spellcheck="false"
+        :disabled="loading"
       />
     </UFormGroup>
     <UFormGroup name="password">
@@ -79,8 +80,11 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         size="xl"
         icon="i-heroicons-lock-closed"
         autocomplete="current-password"
+        :disabled="loading"
       />
     </UFormGroup>
-    <UButton type="submit" block color="primary" size="xl"> Aceptar </UButton>
+    <UButton type="submit" block color="primary" size="xl" :loading="loading">
+      Aceptar
+    </UButton>
   </UForm>
 </template>
