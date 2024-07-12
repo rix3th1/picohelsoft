@@ -6,7 +6,6 @@
         v-model="$colorMode.preference"
         :options="[
           {
-            icon: 'i-heo',
             label: 'Sistema',
             value: 'system'
           },

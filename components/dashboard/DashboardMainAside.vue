@@ -21,6 +21,7 @@ type Schema = z.infer<typeof schema>
 const state = reactive({
   key: undefined
 })
+console.log(state.key)
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const { key } = event.data
@@ -41,7 +42,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       })
       router.push(isOpen.value.to)
       isOpen.value.isOpen = false
-      state.key = undefined
       return
     }
 
@@ -63,6 +63,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   } finally {
     isOpen.value.isOpen = false
     isLoading.value = false
+    state.key = undefined
   }
 }
 </script>
