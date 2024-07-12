@@ -8,4 +8,6 @@
       </UContainer>
     </div>
   </main>
+
+  <LazyDashboardModalAccess />
 </template>
