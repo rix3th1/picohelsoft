@@ -1,4 +1,9 @@
 <script setup lang="ts">
+useSeoMeta({
+  title: 'Gestión de usuarios | Picohelsoft',
+  description: 'Gestión de los empleados de Picohelsoft.'
+})
+
 import type { FormSubmitEvent } from '#ui/types'
 import { z } from 'zod'
 

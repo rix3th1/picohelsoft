@@ -1,4 +1,9 @@
 <script setup lang="ts">
+useSeoMeta({
+  title: 'Hoja de vida | Picohelsoft',
+  description: 'Hoja de vida de los empleados de Picohelsoft.'
+})
+
 const { data: employees } = await useDashboardEmployees()
 </script>
 

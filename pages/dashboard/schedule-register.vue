@@ -1,4 +1,9 @@
 <script setup lang="ts">
+useSeoMeta({
+  title: 'Registro de horarios | Picohelsoft',
+  description: 'Registro de horarios de los empleados de Picohelsoft.'
+})
+
 const { data: employees, refresh } = await useDashboardEmployees()
 </script>
 

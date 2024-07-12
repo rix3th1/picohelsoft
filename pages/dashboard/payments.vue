@@ -1,4 +1,9 @@
 <script setup lang="ts">
+useSeoMeta({
+  title: 'Liquidación de pagos | Picohelsoft',
+  description: 'Liquidación de pagos de los empleados de Picohelsoft.'
+})
+
 const { data: employees } = await useDashboardEmployees()
 </script>
 
