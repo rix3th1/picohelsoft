@@ -21,7 +21,6 @@ type Schema = z.infer<typeof schema>
 const state = reactive({
   key: undefined
 })
-console.log(state.key)
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const { key } = event.data
