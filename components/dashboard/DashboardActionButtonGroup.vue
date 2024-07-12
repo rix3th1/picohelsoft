@@ -1,3 +1,76 @@
+<script setup lang="ts">
+const { filteredRows } = defineProps<{
+  filteredRows: any[]
+}>()
+
+import jsPDF from 'jspdf'
+import 'jspdf-autotable'
+import Papa from 'papaparse'
+import { utils, writeFile } from 'xlsx'
+
+const toast = useToast()
+
+const columns = useDashboardWorkHoursTableColumns()
+
+const exportCSV = () => {
+  const csv = Papa.unparse(filteredRows)
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+  const link = document.createElement('a')
+  link.href = URL.createObjectURL(blob)
+  link.setAttribute('download', 'usuarios.csv')
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
+
+const exportExcel = () => {
+  const ws = utils.json_to_sheet(filteredRows)
+  const wb = utils.book_new()
+  utils.book_append_sheet(wb, ws, 'Usuarios')
+  writeFile(wb, 'usuarios.xlsx')
+}
+
+const exportPDF = () => {
+  const doc = new jsPDF()
+  const tableData = filteredRows?.map((row: any) =>
+    columns.value.map((col) => row[col.key])
+  )
+
+  doc.autoTable({
+    head: [columns.value.map((col) => col.label)],
+    body: tableData
+  })
+
+  doc.save('usuarios.pdf')
+}
+
+const printTable = () => {
+  window.print()
+}
+
+const copyToClipboard = () => {
+  const textToCopy = filteredRows
+    ?.map((row: any) => columns.value.map((col) => row[col.key]).join('\t'))
+    .join('\n')
+  navigator.clipboard
+    .writeText(textToCopy ?? '')
+    .then(() => {
+      toast.add({
+        title: 'Copiado al portapapeles',
+        description: 'Los datos se han copiado correctamente al portapapeles.',
+        color: 'green'
+      })
+    })
+    .catch(() => {
+      toast.add({
+        title: 'Error al copiar al portapapeles',
+        description: 'No se pudo copiar los datos al portapapeles.',
+        color: 'red'
+      })
+    })
+}
+</script>
+
 <template>
   <UButtonGroup size="xl">
     <UButton
@@ -6,6 +79,7 @@
       label="Copiar"
       icon="i-heroicons-clipboard-document-solid"
       trailing
+      @click="copyToClipboard"
     />
     <UButton
       color="indigo"
@@ -13,6 +87,7 @@
       label="CSV"
       icon="i-heroicons-document-text"
       trailing
+      @click="exportCSV"
     />
     <UButton
       color="indigo"
@@ -20,6 +95,7 @@
       label="Excel"
       icon="i-heroicons-document-chart-bar"
       trailing
+      @click="exportExcel"
     />
     <UButton
       color="indigo"
@@ -27,6 +103,7 @@
       label="PDF"
       icon="i-heroicons-document-arrow-down"
       trailing
+      @click="exportPDF"
     />
     <UButton
       color="indigo"
@@ -34,6 +111,7 @@
       label="Imprimir"
       icon="i-heroicons-printer"
       trailing
+      @click="printTable"
     />
   </UButtonGroup>
 </template>

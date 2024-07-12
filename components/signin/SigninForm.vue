@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
+import { useAuthStore } from '~/store/auth'
 
 const { signIn } = useAuthStore()
 const { authenticated, loading } = storeToRefs(useAuthStore())
@@ -8,7 +8,6 @@ const router = useRouter()
 
 import type { FormSubmitEvent } from '#ui/types'
 import { z } from 'zod'
-import { useAuthStore } from '~/store/auth'
 
 const schema = z.object({
   username: z

@@ -1,10 +1,8 @@
 import type { VerticalNavigationLink } from '#ui/types'
-import { storeToRefs } from 'pinia'
 import { useAuthStore } from '~/store/auth'
 
 export function useDashboardBottomAsideLinks(): VerticalNavigationLink[] {
   const { signOut } = useAuthStore()
-  const { authenticated } = storeToRefs(useAuthStore())
 
   const router = useRouter()
 

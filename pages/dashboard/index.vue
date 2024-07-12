@@ -8,6 +8,9 @@ useSeoMeta({
 <template>
   <NuxtLayout name="dashboard">
     <DashboardTitle title="BIENVENIDOS A PICOHELSOFT" />
+    <ClientOnly>
+      <DashboardActionButtonGroup :filtered-rows="[]" />
+    </ClientOnly>
     <DashboardWorkHoursTable />
   </NuxtLayout>
 </template>

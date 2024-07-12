@@ -1,5 +1,3 @@
-import { defineStore } from 'pinia'
-
 export interface SignInPayload {
   username: string
   password: string
