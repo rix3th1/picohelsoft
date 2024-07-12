@@ -16,20 +16,19 @@ async function main() {
     ]
   })
 
-  const {
-    admin: { username, password, restrictedAccessKey }
-  } = useRuntimeConfig()
+  const { ADMIN_USERNAME, ADMIN_PASSWORD, ADMIN_RESTRICTED_ACCESS_KEY } =
+    process.env
 
   const adminUser = await prisma.user.create({
     data: {
-      username,
-      hashedPassword: await argon2.hash(password)
+      username: ADMIN_USERNAME!,
+      hashedPassword: await argon2.hash(ADMIN_PASSWORD!)
     }
   })
 
   const restrictedAccessKeys = await prisma.restrictedAccessKey.create({
     data: {
-      key: restrictedAccessKey,
+      key: ADMIN_RESTRICTED_ACCESS_KEY!,
       userId: adminUser.id
     }
   })
