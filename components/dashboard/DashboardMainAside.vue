@@ -13,7 +13,7 @@ const schema = z.object({
       message: 'La clave de acceso es obligatoria',
       required_error: 'La clave de acceso es obligatoria'
     })
-    .min(8, 'La clave de acceso debe tener al menos 8 caracteres')
+    .min(4, 'La clave de acceso debe tener al menos 4 caracteres')
 })
 
 type Schema = z.infer<typeof schema>
