@@ -5,7 +5,6 @@ const columns = useDashboardEmployeesTableColumns()
 const { data: employees } = await useDashboardEmployees()
 
 const q = ref('')
-const isLoading = ref(false)
 
 const filteredRows = computed(() => {
   if (!q.value) {
@@ -22,18 +21,13 @@ const filteredRows = computed(() => {
 const page = ref(1)
 const pageCount = 5
 
-const toast = useToast()
+const isOpen = useModalSecurityPinOpen()
+
+const employeeIdAux = useEmployeeId()
 
 async function register2FA(employeeId: string) {
-  isLoading.value = true
-  try {
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error({ error })
-    }
-  } finally {
-    isLoading.value = false
-  }
+  isOpen.value.isOpen = true
+  employeeIdAux.value = employeeId
 }
 
 const items = (row: any): DropdownItem[][] => [
@@ -66,7 +60,6 @@ const items = (row: any): DropdownItem[][] => [
       <template #actions-data="{ row }">
         <UDropdown :items="items(row)">
           <UButton
-            :loading="isLoading"
             color="gray"
             variant="ghost"
             icon="i-heroicons-ellipsis-horizontal-20-solid"
