@@ -11,7 +11,7 @@ watch(modalAccess.value, (value) => {
 
 <template>
   <nav
-    class="flex items-center justify-between p-4 bg-purple-500 shadow-md shadow-purple-500/50"
+    class="fixed top-0 w-full flex items-center justify-between p-4 bg-primary-600/70 shadow-md shadow-primary-500/50 backdrop-blur-md dark:bg-primary-400/80"
   >
     <div class="flex items-center">
       <UTooltip text="Abrir menú" @click="isOpen = true">
@@ -24,7 +24,7 @@ watch(modalAccess.value, (value) => {
       <span class="text-white text-md font-semibold">PICOHELSOFT</span>
     </div>
     <div>
-      <button class="bg-purple-700 text-white text-md px-4 py-2 rounded">
+      <button class="bg-primary-500/80 text-white text-md px-4 py-2 rounded">
         PICOHELSOFT
       </button>
     </div>

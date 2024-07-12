@@ -221,11 +221,11 @@ async function onSubmitUserUpdate(event: FormSubmitEvent<UserUpdateSchema>) {
       </template>
 
       <UTabs :items="items" class="w-full">
-        <template #default="{ item, index, selected }">
+        <template #default="{ item, selected }">
           <div class="flex items-center gap-2 relative truncate">
             <UIcon :name="item.icon" class="w-4 h-4 flex-shrink-0" />
 
-            <span class="truncate">{{ index + 1 }}. {{ item.label }}</span>
+            <span class="truncate hidden md:block">{{ item.label }}</span>
 
             <span
               v-if="selected"
