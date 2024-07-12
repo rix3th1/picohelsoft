@@ -1,13 +1,8 @@
 <template>
   <DashboardNav />
-  <main class="flex">
-    <DashboardMainAside />
-    <div class="flex-1 p-4">
-      <UContainer>
-        <slot />
-      </UContainer>
-    </div>
-  </main>
+  <UContainer as="main">
+    <slot />
+  </UContainer>
 
   <LazyDashboardModalAccess />
 </template>
