@@ -38,8 +38,6 @@ const registerWorkHour = async (type: 'start' | 'end') => {
       description: 'El horario ha sido registrado correctamente',
       color: 'green'
     })
-
-    window.location.reload()
   } catch (error) {
     if (error instanceof Error) {
       console.error({ error })
