@@ -85,7 +85,7 @@ model Employee {
   location         Location          @relation(fields: [locationId], references: [id], onDelete: Cascade)
   curriculumVitaes CurriculumVitae[]
   workHours        WorkHour[]
-  authenticators   Authenticator[]
+  securityPins     SecurityPin[]
   currentChallenge String?
   is2FAEnabled     Boolean           @default(false)
 
@@ -93,16 +93,11 @@ model Employee {
   updatedAt DateTime @updatedAt
 }
 
-model Authenticator {
-  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
-  credentialID         Bytes    @unique
-  credentialPublicKey  Bytes
-  counter              Int
-  credentialDeviceType String
-  credentialBackedUp   Boolean
-  transports           String[]
-  employeeId           String   @db.ObjectId
-  employee             Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+model SecurityPin {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  pin        String
+  employeeId String   @db.ObjectId
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
