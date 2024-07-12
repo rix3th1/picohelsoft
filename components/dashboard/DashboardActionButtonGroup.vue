@@ -72,46 +72,54 @@ const copyToClipboard = () => {
 </script>
 
 <template>
-  <UButtonGroup size="xl">
-    <UButton
-      color="indigo"
-      variant="outline"
-      label="Copiar"
-      icon="i-heroicons-clipboard-document-solid"
-      trailing
-      @click="copyToClipboard"
-    />
-    <UButton
-      color="indigo"
-      variant="outline"
-      label="CSV"
-      icon="i-heroicons-document-text"
-      trailing
-      @click="exportCSV"
-    />
-    <UButton
-      color="indigo"
-      variant="outline"
-      label="Excel"
-      icon="i-heroicons-document-chart-bar"
-      trailing
-      @click="exportExcel"
-    />
-    <UButton
-      color="indigo"
-      variant="outline"
-      label="PDF"
-      icon="i-heroicons-document-arrow-down"
-      trailing
-      @click="exportPDF"
-    />
-    <UButton
-      color="indigo"
-      variant="outline"
-      label="Imprimir"
-      icon="i-heroicons-printer"
-      trailing
-      @click="printTable"
-    />
-  </UButtonGroup>
+  <UButton
+    :ui="{ rounded: 'rounded-none' }"
+    size="xl"
+    color="indigo"
+    variant="outline"
+    label="Copiar"
+    icon="i-heroicons-clipboard-document-solid"
+    trailing
+    @click="copyToClipboard"
+  />
+  <UButton
+    :ui="{ rounded: 'rounded-none' }"
+    size="xl"
+    color="indigo"
+    variant="outline"
+    label="CSV"
+    icon="i-heroicons-document-text"
+    trailing
+    @click="exportCSV"
+  />
+  <UButton
+    :ui="{ rounded: 'rounded-none' }"
+    size="xl"
+    color="indigo"
+    variant="outline"
+    label="Excel"
+    icon="i-heroicons-document-chart-bar"
+    trailing
+    @click="exportExcel"
+  />
+  <UButton
+    :ui="{ rounded: 'rounded-none' }"
+    size="xl"
+    color="indigo"
+    variant="outline"
+    label="PDF"
+    icon="i-heroicons-document-arrow-down"
+    trailing
+    @click="exportPDF"
+  />
+  <UButton
+    :ui="{ rounded: 'rounded-none' }"
+    size="xl"
+    color="indigo"
+    variant="outline"
+    label="Imprimir"
+    icon="i-heroicons-printer"
+    trailing
+    @click="printTable"
+  />
 </template>
