@@ -14,7 +14,7 @@ const { data: employees } = await useDashboardEmployees()
     <DashboardVerifySecurityPinModal />
 
     <section
-      class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+      class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
     >
       <DashboardScheduleRegisterEmployeeCard
         v-for="employee in employees"
