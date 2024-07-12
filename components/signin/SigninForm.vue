@@ -49,7 +49,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
       toast.add({
         title: 'Error al iniciar sesión',
-        description: error.message
+        description: 'El usuario o la contraseña son incorrectos',
+        color: 'orange'
       })
     }
   }
