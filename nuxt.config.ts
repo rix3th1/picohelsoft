@@ -9,11 +9,6 @@ export default defineNuxtConfig({
       restrictedAccessKey: process.env.ADMIN_RESTRICTED_ACCESS_KEY,
       settlementValuePerHour: process.env.SETTLEMENT_VALUE_PER_HOUR
     },
-    webauthn: {
-      rpName: 'Picohelsoft',
-      rpID: new URL(process.env.BASE_URL!).hostname,
-      origin: process.env.BASE_URL
-    },
     cloudinary: {
       cloudName: process.env.CLOUDINARY_CLOUD_NAME,
       apiKey: process.env.CLOUDINARY_API_KEY,

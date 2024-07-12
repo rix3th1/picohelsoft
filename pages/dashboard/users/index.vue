@@ -536,7 +536,7 @@ async function onSubmitUserUpdate(event: FormSubmitEvent<UserUpdateSchema>) {
               </p>
               <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
                 Consultar los datos de un usuario existente y registrar su
-                acceso mediante huellas dactilares.
+                acceso mediante pin númerico de seguridad.
               </p>
             </template>
 
