@@ -1,4 +1,4 @@
-<script lang="tsx">
+<script setup lang="tsx">
 useSeoMeta({
   title: 'Dashboard | Picohelsoft',
   description: 'Panel de control de Picohelsoft.'
