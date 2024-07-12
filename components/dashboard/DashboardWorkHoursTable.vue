@@ -10,12 +10,12 @@ const pageCount = 5
 <template>
   <div>
     <div
-      class="flex justify-end py-3.5 border-b border-gray-200 dark:border-gray-700"
+      class="flex justify-start py-3.5 border-b border-gray-200 dark:border-gray-700"
     >
       <UInput
         id="search"
         icon="i-heroicons-magnifying-glass-20-solid"
-        size="xl"
+        size="md"
         trailing
         v-model="q"
         placeholder="Buscar usuario..."
