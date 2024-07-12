@@ -12,6 +12,15 @@ const filename = ref('')
 
 const toast = useToast()
 
+const download = () => {
+  const link = document.createElement('a')
+  link.href = downloadHref.value
+  link.download = filename.value
+  link.click()
+  URL.revokeObjectURL(link.href)
+  downloadIsReady.value = false
+}
+
 const generateSettlement = async () => {
   isLoading.value = true
   try {
@@ -19,15 +28,11 @@ const generateSettlement = async () => {
       method: 'GET'
     })
     const blob = await response.blob()
-    const filename = `${props.employee.name}-${new Date().toISOString()}.pdf`
+    const fn = `${props.employee.name}-${new Date().toISOString()}.pdf`
     const url = URL.createObjectURL(blob)
-    const link = document.createElement('a')
+    filename.value = fn
     downloadHref.value = url
     downloadIsReady.value = true
-    link.href = url
-    link.download = filename
-    link.click()
-    URL.revokeObjectURL(url)
   } catch (error) {
     if (error instanceof Error) {
       console.error({ error })
@@ -69,8 +74,7 @@ const generateSettlement = async () => {
         </UTooltip>
         <UTooltip v-show="downloadIsReady" text="Descargar liquidación">
           <UButton
-            :to="downloadHref"
-            :download="filename"
+            @click="download"
             color="indigo"
             size="lg"
             icon="i-heroicons-arrow-down-tray"
