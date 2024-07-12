@@ -1,9 +1,4 @@
-<script setup lang="ts">
-definePageMeta({
-  middleware: 'guest-only',
-  auth: { authenticatedRedirectTo: '/dashboard' }
-})
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <NuxtLayout name="signin">

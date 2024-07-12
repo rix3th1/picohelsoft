@@ -17,6 +17,7 @@
     "@nuxt/ui": "^2.17.0",
     "@prisma/client": "^5.16.2",
     "@simplewebauthn/typescript-types": "^8.3.4",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/papaparse": "^5.3.14",
     "@types/pdfkit": "^0.13.4",
     "nuxt": "^3.12.3",
@@ -33,13 +34,13 @@
     "vue-demi"
   ],
   "dependencies": {
-    "@auth/core": "^0.17.0",
-    "@hebilicious/authjs-nuxt": "latest",
+    "@pinia/nuxt": "^0.5.1",
     "@simplewebauthn/browser": "^8.3.4",
     "@simplewebauthn/server": "^8.3.5",
     "argon2": "^0.40.3",
     "clipboard": "^2.0.11",
     "cloudinary": "^2.2.0",
+    "jsonwebtoken": "^9.0.2",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.2",
     "papaparse": "^5.4.1",

@@ -1,8 +1,14 @@
 <script setup lang="ts">
-const { signIn } = useAuth()
+import { storeToRefs } from 'pinia'
+
+const { signIn } = useAuthStore()
+const { authenticated } = storeToRefs(useAuthStore())
+
+const router = useRouter()
 
 import type { FormSubmitEvent } from '#ui/types'
 import { z } from 'zod'
+import { useAuthStore } from '~/store/auth'
 
 const schema = z.object({
   username: z
@@ -24,18 +30,19 @@ const state = reactive({
 const toast = useToast()
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
+  const { username, password } = event.data
   try {
-    await signIn('credentials', {
-      username: event.data.username,
-      password: event.data.password,
-      redirect: false
-    })
+    await signIn({ username, password })
 
-    toast.add({
-      title: 'Sesión iniciada',
-      description: 'Ahora puedes acceder a tus funciones de gestión.',
-      color: 'green'
-    })
+    if (authenticated) {
+      router.push('/dashboard')
+
+      toast.add({
+        title: 'Sesión iniciada',
+        description: 'Ahora puedes acceder a tus funciones de gestión.',
+        color: 'green'
+      })
+    }
   } catch (error) {
     if (error instanceof Error) {
       console.error({ error })

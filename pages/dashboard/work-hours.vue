@@ -1,6 +1,4 @@
 <script setup lang="ts">
-definePageMeta({ middleware: 'auth' })
-
 const { data: employees } = await useDashboardEmployees()
 </script>
 

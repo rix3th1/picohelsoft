@@ -21,15 +21,16 @@ export async function generatePDF(
       (item.hoursWorked * item.valuePerHour).toFixed(2)
     ])
 
+    const baseUrl = process.env.BASE_URL
     ;(async function () {
-      const res = await fetch(`${process.env.NUXT_NEXTAUTH_URL}/logo.png`)
+      const res = await fetch(`${baseUrl} /logo.png`)
       const image = await res.arrayBuffer()
 
       function addHeader(doc: PDFDocument) {
         doc
           .image(image, 30, 15, {
             width: 50,
-            link: process.env.NUXT_NEXTAUTH_URL
+            link: baseUrl
           })
           .fontSize(8)
           .text(

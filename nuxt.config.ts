@@ -1,22 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ['@nuxt/ui', '@hebilicious/authjs-nuxt'],
-  alias: {
-    cookie: 'cookie'
-  },
-  authJs: {
-    guestRedirectTo: '/',
-    authenticatedRedirectTo: '/dashboard'
-  },
+  modules: ['@nuxt/ui', '@pinia/nuxt'],
   runtimeConfig: {
-    authJs: { secret: process.env.NUXT_NEXTAUTH_SECRET },
-    public: {
-      authJs: {
-        baseUrl: process.env.NUXT_NEXTAUTH_URL,
-        verifyClientOnEveryRequest: true
-      }
-    },
     admin: {
       username: process.env.ADMIN_USERNAME,
       password: process.env.ADMIN_PASSWORD,
@@ -25,8 +11,8 @@ export default defineNuxtConfig({
     },
     webauthn: {
       rpName: 'Picohelsoft',
-      rpID: new URL(process.env.NUXT_NEXTAUTH_URL!).hostname,
-      origin: process.env.NUXT_NEXTAUTH_URL!
+      rpID: new URL(process.env.BASE_URL!).hostname,
+      origin: process.env.BASE_URL
     },
     cloudinary: {
       cloudName: process.env.CLOUDINARY_CLOUD_NAME,

@@ -3,5 +3,14 @@ import prisma from '~/lib/prisma'
 export default defineEventHandler(async (event) => {
   const id = getRouterParam(event, 'id')
 
-  return prisma.employee.delete({ where: { id } })
+  try {
+    return prisma.employee.delete({ where: { id } })
+  } catch (error) {
+    console.error({ error })
+
+    throw createError({
+      statusCode: 500,
+      message: 'Oops! Algo salió mal. Por favor intenta nuevamente.'
+    })
+  }
 })
