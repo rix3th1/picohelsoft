@@ -1,6 +1,4 @@
 <script setup lang="ts">
-defineProps<{ label: string }>()
-
 import type { FormSubmitEvent } from '#ui/types'
 import { z } from 'zod'
 
@@ -75,7 +73,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           <h3
             class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
           >
-            {{ label }}
+            Por favor, crea tu pin de seguridad
           </h3>
           <UButton
             color="gray"
