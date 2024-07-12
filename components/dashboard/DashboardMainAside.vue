@@ -41,6 +41,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       })
       router.push(isOpen.value.to)
       isOpen.value.isOpen = false
+      return
     }
 
     toast.add({
@@ -69,7 +70,16 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   <aside
     class="flex flex-col h-[calc(100vh-5rem)] w-80 py-5 bg-neutral-200/30 dark:bg-neutral-500/20 border-r border-neutral-300/50 dark:border-neutral-700/50"
   >
-    <UModal v-model="isOpen.isOpen" prevent-close>
+    <UModal
+      v-model="isOpen.isOpen"
+      prevent-close
+      :ui="{
+        overlay: {
+          base: 'fixed inset-0 transition-opacity',
+          background: 'bg-transparent backdrop-blur-md'
+        }
+      }"
+    >
       <UCard
         :ui="{
           ring: '',
@@ -92,15 +102,15 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           class="space-y-5"
           @submit="onSubmit"
         >
-          <UFormGroup name="password">
+          <UFormGroup name="key">
             <UInput
-              id="password"
+              id="key"
               v-model="state.key"
               type="password"
-              placeholder="Contraseña"
+              placeholder="Llave de acceso"
               size="xl"
               icon="i-heroicons-lock-closed"
-              autocomplete="current-password"
+              autocomplete="off"
               autofocus
             />
           </UFormGroup>
@@ -110,6 +120,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             color="primary"
             size="xl"
             icon="i-heroicons-key"
+            :loading="isloading"
           >
             Aceptar
           </UButton>
