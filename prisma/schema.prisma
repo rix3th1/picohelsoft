@@ -86,8 +86,6 @@ model Employee {
   curriculumVitaes CurriculumVitae[]
   workHours        WorkHour[]
   securityPins     SecurityPin[]
-  currentChallenge String?
-  is2FAEnabled     Boolean           @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
