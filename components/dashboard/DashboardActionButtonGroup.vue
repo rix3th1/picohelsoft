@@ -5,7 +5,6 @@ const { filteredRows } = defineProps<{
 
 import jsPDF from 'jspdf'
 import 'jspdf-autotable'
-import Papa from 'papaparse'
 import { utils, writeFile } from 'xlsx'
 
 const toast = useToast()
@@ -13,7 +12,11 @@ const toast = useToast()
 const columns = useDashboardWorkHoursTableColumns()
 
 const exportCSV = () => {
-  const csv = Papa.unparse(filteredRows)
+  let csv =
+    Object.values(columns)
+      .map((col) => col.label)
+      .join(',') + '\n'
+  for (const row of filteredRows) csv += Object.values(row).join(',') + '\n'
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
   const link = document.createElement('a')
   link.href = URL.createObjectURL(blob)
@@ -33,11 +36,11 @@ const exportExcel = () => {
 const exportPDF = () => {
   const doc = new jsPDF()
   const tableData = filteredRows?.map((row: any) =>
-    columns.value.map((col) => row[col.key])
+    columns.map((col) => row[col.key])
   )
 
   doc.autoTable({
-    head: [columns.value.map((col) => col.label)],
+    head: [columns.map((col) => col.label)],
     body: tableData
   })
 
@@ -50,7 +53,7 @@ const printTable = () => {
 
 const copyToClipboard = () => {
   const textToCopy = filteredRows
-    ?.map((row: any) => columns.value.map((col) => row[col.key]).join('\t'))
+    ?.map((row: any) => columns.map((col) => row[col.key]).join('\t'))
     .join('\n')
   navigator.clipboard
     .writeText(textToCopy ?? '')
