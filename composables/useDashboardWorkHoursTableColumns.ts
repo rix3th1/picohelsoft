@@ -1,5 +1,5 @@
 export function useDashboardWorkHoursTableColumns() {
-  return useState('columns', () => [
+  return [
     {
       key: 'id',
       label: 'ID'
@@ -24,5 +24,5 @@ export function useDashboardWorkHoursTableColumns() {
       key: 'endTime',
       label: 'Horario de salida'
     }
-  ])
+  ]
 }

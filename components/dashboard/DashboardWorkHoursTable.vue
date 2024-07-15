@@ -8,6 +8,8 @@ const pageCount = 5
 </script>
 
 <template>
+  <DashboardActionButtonGroup :filtered-rows="filteredRows ?? []" />
+
   <div>
     <div
       class="flex justify-start py-3.5 border-b border-gray-200 dark:border-gray-700"
