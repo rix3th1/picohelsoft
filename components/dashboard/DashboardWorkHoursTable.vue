@@ -8,7 +8,9 @@ const pageCount = 5
 </script>
 
 <template>
-  <DashboardActionButtonGroup :filtered-rows="filteredRows ?? []" />
+  <ClientOnly>
+    <DashboardActionButtonGroup :filtered-rows="filteredRows ?? []" />
+  </ClientOnly>
 
   <div>
     <div
