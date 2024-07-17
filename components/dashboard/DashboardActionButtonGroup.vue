@@ -11,12 +11,15 @@ const toast = useToast()
 
 const columns = useDashboardWorkHoursTableColumns()
 
+const colLabels = Object.values(columns).map((col) => col.label)
+const rowLabel = (row: any) => Object.values(row).join(',') + '\n'
+
 const exportCSV = () => {
-  let csv =
-    Object.values(columns)
-      .map((col) => col.label)
-      .join(',') + '\n'
-  for (const row of filteredRows) csv += Object.values(row).join(',') + '\n'
+  let csv = colLabels.join(',') + '\n'
+  filteredRows.forEach((row) => {
+    csv += rowLabel(row)
+  })
+
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
   const link = document.createElement('a')
   link.href = URL.createObjectURL(blob)
