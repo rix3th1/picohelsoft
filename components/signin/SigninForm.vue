@@ -83,8 +83,19 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         :disabled="loading"
       />
     </UFormGroup>
-    <UButton type="submit" block color="primary" size="xl" :loading="loading">
-      Aceptar
+    <UButton
+      type="submit"
+      block
+      color="primary"
+      size="xl"
+      :loading="loading"
+      :icon="
+        !authenticated
+          ? 'i-heroicons-arrow-right-end-on-rectangle'
+          : 'i-heroicons-check-circle'
+      "
+    >
+      {{ !authenticated ? 'Aceptar' : 'Redirigiendo...' }}
     </UButton>
   </UForm>
 </template>
