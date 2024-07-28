@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { ui } = useVerticalNavigationUI()
-const links = await useDashboardTopAsideLinks()
+const links = useDashboardTopAsideLinks()
 </script>
 
 <template>

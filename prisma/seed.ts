@@ -36,12 +36,12 @@ async function main() {
   console.info({ locations, adminUser, restrictedAccessKeys })
 }
 
-await main()
-  .catch(async (error) => {
-    console.error({ error })
-    process.exit(1)
-  })
-  .finally(async () => {
-    await prisma.$disconnect()
-    process.exit(0)
-  })
+try {
+  await main()
+} catch (error) {
+  console.error({ error })
+  process.exit(1)
+} finally {
+  await prisma.$disconnect()
+  process.exit(0)
+}

@@ -1,8 +1,6 @@
 import type { VerticalNavigationLink } from '#ui/types'
 
-export async function useDashboardTopAsideLinks(): Promise<
-  VerticalNavigationLink[]
-> {
+export function useDashboardTopAsideLinks(): VerticalNavigationLink[] {
   return [
     {
       label: 'Inicio',

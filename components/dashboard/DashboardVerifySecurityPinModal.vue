@@ -22,7 +22,7 @@ const isLoading = ref(false)
 const isOpen = useModalVerifySecurityPinOpen()
 const scheduleType = useScheduleType()
 
-const { data: workHour, status } = await useWorkHour(isOpen.value.employeeId)
+const { data: workHour } = await useWorkHour(isOpen.value.employeeId)
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const { pin } = event.data

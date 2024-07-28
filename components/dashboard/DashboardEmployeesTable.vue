@@ -12,7 +12,7 @@ const isOpen = useModalNewSecurityPinOpen()
 
 const employeeIdAux = useEmployeeId()
 
-async function registerSecurityPin(employeeId: string) {
+function registerSecurityPin(employeeId: string) {
   isOpen.value.isOpen = true
   employeeIdAux.value = employeeId
 }

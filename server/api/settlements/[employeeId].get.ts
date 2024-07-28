@@ -76,7 +76,7 @@ export default defineEventHandler(async (event) => {
     })
 
     // Send the PDF stream as response
-    return sendStream(event, stream)
+    sendStream(event, stream)
   } catch (error) {
     console.error({ error })
 

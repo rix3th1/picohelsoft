@@ -1,3 +1,3 @@
-export async function useDashboardEmployees() {
+export function useDashboardEmployees() {
   return useFetch('/api/employees')
 }

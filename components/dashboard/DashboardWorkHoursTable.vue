@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const columns = useDashboardWorkHoursTableColumns()
 
-const { filteredRows, q } = useEmployeesFilter()
+const { filteredRows, q } = await useEmployeesFilter()
 
 const page = ref(1)
 const pageCount = 5
