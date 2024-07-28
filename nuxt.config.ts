@@ -6,11 +6,6 @@ export default defineNuxtConfig({
     pageTransition: { name: 'page', mode: 'out-in' },
     layoutTransition: { name: 'page', mode: 'out-in' }
   },
-  nitro: {
-    routeRules: {
-      '/dashboard': { ssr: true, prerender: true }
-    }
-  },
   runtimeConfig: {
     admin: {
       username: process.env.ADMIN_USERNAME,
