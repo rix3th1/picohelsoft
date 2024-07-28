@@ -30,7 +30,7 @@ watch(modalAccess.value, (value) => {
     </div>
   </nav>
 
-  <USlideover v-model="isOpen" prevent-close side="left" appear>
+  <USlideover v-model="isOpen" side="left">
     <UCard
       class="flex flex-col flex-1"
       :ui="{

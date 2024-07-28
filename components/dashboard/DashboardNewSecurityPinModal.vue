@@ -61,7 +61,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 </script>
 
 <template>
-  <UModal v-model="isOpen.isOpen" prevent-close>
+  <UModal v-model="isOpen.isOpen">
     <UCard
       :ui="{
         ring: '',
