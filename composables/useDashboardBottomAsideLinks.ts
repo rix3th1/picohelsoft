@@ -15,7 +15,8 @@ export function useDashboardBottomAsideLinks(): VerticalNavigationLink[] {
     {
       label: 'Horarios laborales',
       icon: 'i-heroicons-calendar',
-      to: '/dashboard/work-hours'
+      to: '/dashboard/work-hours',
+      click: () => closeNavSlideover()
     },
     {
       label: 'Cerrar sesión',

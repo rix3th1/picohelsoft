@@ -5,12 +5,14 @@ export function useDashboardTopAsideLinks(): VerticalNavigationLink[] {
     {
       label: 'Inicio',
       icon: 'i-heroicons-home',
-      to: '/dashboard'
+      to: '/dashboard',
+      click: () => closeNavSlideover()
     },
     {
       label: 'Registro de horarios',
       icon: 'i-heroicons-calendar',
-      to: '/dashboard/schedule-register'
+      to: '/dashboard/schedule-register',
+      click: () => closeNavSlideover()
     },
     {
       label: 'Hojas de vida',
