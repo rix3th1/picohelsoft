@@ -5,6 +5,7 @@
       <slot />
     </UContainer>
 
+    <LazyUSlideovers />
     <LazyDashboardModalAccess />
   </div>
 </template>
