@@ -24,7 +24,9 @@ export default defineEventHandler(async (event) => {
 
     const { hashedPassword, ...payload } = existingUser
 
-    const jwt = JWT.sign(payload, process.env.ADMIN_PASSWORD!, {
+    const runtimeConfig = useRuntimeConfig()
+
+    const jwt = JWT.sign(payload, runtimeConfig.admin.password, {
       expiresIn: 10 * 60 * 60 * 24 * 7 // 1 week
     })
 
