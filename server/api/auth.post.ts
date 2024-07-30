@@ -25,9 +25,10 @@ export default defineEventHandler(async (event) => {
     const { hashedPassword, ...payload } = existingUser
 
     const runtimeConfig = useRuntimeConfig()
+    const SESSION_EXPIRATION_TIME = 10 * 60 * 60 * 24 * 7 // 1 week
 
     const jwt = JWT.sign(payload, runtimeConfig.admin.password, {
-      expiresIn: 10 * 60 * 60 * 24 * 7 // 1 week
+      expiresIn: SESSION_EXPIRATION_TIME
     })
 
     return {
