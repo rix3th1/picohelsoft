@@ -1,4 +1,6 @@
 <script setup lang="ts">
+definePageMeta({ layout: 'signin' })
+
 useSeoMeta({
   title: 'Iniciar sesión | Picohelsoft',
   description:
@@ -7,7 +9,5 @@ useSeoMeta({
 </script>
 
 <template>
-  <NuxtLayout name="signin">
-    <SigninCard />
-  </NuxtLayout>
+  <SigninCard />
 </template>

@@ -1,4 +1,6 @@
-<script setup lang="tsx">
+<script setup lang="ts">
+definePageMeta({ layout: 'dashboard' })
+
 useSeoMeta({
   title: 'Dashboard | Picohelsoft',
   description: 'Panel de control de Picohelsoft.'
@@ -6,8 +8,8 @@ useSeoMeta({
 </script>
 
 <template>
-  <NuxtLayout name="dashboard">
+  <section>
     <DashboardTitle title="BIENVENIDOS A PICOHELSOFT" />
     <DashboardWorkHoursTable />
-  </NuxtLayout>
+  </section>
 </template>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+definePageMeta({ layout: 'dashboard' })
+
 useSeoMeta({
   title: 'Gestión de usuarios | Picohelsoft',
   description: 'Gestión de los empleados de Picohelsoft.'
@@ -208,9 +210,8 @@ async function onSubmitUserUpdate(event: FormSubmitEvent<UserUpdateSchema>) {
 </script>
 
 <template>
-  <NuxtLayout name="dashboard">
+  <section>
     <DashboardTitle title="GESTIÓN DE USUARIOS" />
-
     <UCard class="w-full">
       <template #header>
         <h2
@@ -546,5 +547,5 @@ async function onSubmitUserUpdate(event: FormSubmitEvent<UserUpdateSchema>) {
         </template>
       </UTabs>
     </UCard>
-  </NuxtLayout>
+  </section>
 </template>

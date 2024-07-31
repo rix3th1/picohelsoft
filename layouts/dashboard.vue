@@ -1,8 +1,10 @@
 <template>
-  <DashboardNav />
-  <UContainer as="main" class="mt-[8rem]">
-    <slot />
-  </UContainer>
+  <div id="dashboard">
+    <DashboardNav />
+    <UContainer class="mt-[8rem]">
+      <slot />
+    </UContainer>
 
-  <LazyDashboardModalAccess />
+    <LazyDashboardModalAccess />
+  </div>
 </template>

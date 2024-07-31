@@ -11,7 +11,7 @@ watch(modalAccess.value, (value) => {
 
 <template>
   <nav
-    class="fixed top-0 w-full z-40 flex items-center justify-between p-4 bg-primary-600/70 shadow-md shadow-primary-500/50 backdrop-blur-md dark:bg-primary-400/80"
+    class="sticky top-0 w-full z-40 flex items-center justify-between p-4 bg-primary-600/70 shadow-md shadow-primary-500/50 backdrop-blur-md dark:bg-primary-400/80"
   >
     <div class="flex items-center">
       <UTooltip text="Abrir menú" @click="isOpen = true">

@@ -1,9 +1,9 @@
 <template>
-  <main id="signin">
+  <div id="signin">
     <UContainer class="flex justify-center items-center h-screen">
       <slot />
     </UContainer>
-  </main>
+  </div>
 </template>
 
 <style lang="css">
