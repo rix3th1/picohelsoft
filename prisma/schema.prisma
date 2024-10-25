@@ -21,7 +21,7 @@ model WorkHour {
   endTime     DateTime?
   hoursWorked Int       @default(0)
   employeeId  String    @db.ObjectId
-  employee    Employee  @relation(fields: [employeeId], references: [id])
+  employee    Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
