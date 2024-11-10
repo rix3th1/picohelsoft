@@ -21,7 +21,7 @@ model WorkHour {
   endTime     DateTime?
   hoursWorked Int       @default(0)
   employeeId  String    @db.ObjectId
-  employee    Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  employee    Employee  @relation(fields: [employeeId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -31,7 +31,7 @@ model CurriculumVitae {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   cvUrl      String   @unique
   employeeId String   @db.ObjectId
-  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  employee   Employee @relation(fields: [employeeId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -82,7 +82,7 @@ model Employee {
   document         String            @unique
   gender           Gender
   locationId       String            @db.ObjectId
-  location         Location          @relation(fields: [locationId], references: [id], onDelete: NoAction)
+  location         Location          @relation(fields: [locationId], references: [id])
   curriculumVitaes CurriculumVitae[]
   workHours        WorkHour[]
   securityPins     SecurityPin[]
@@ -95,7 +95,7 @@ model SecurityPin {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   pin        String
   employeeId String   @db.ObjectId
-  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  employee   Employee @relation(fields: [employeeId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
