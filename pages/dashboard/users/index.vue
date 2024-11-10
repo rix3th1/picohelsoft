@@ -182,7 +182,7 @@ async function onSubmitUserUpdate(event: FormSubmitEvent<UserUpdateSchema>) {
       body: {
         name,
         document: document?.toString(),
-        location,
+        location: location,
         genderId: (gender as { id: string }).id
       }
     })
