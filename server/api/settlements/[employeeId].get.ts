@@ -54,6 +54,8 @@ export default defineEventHandler(async (event) => {
       valuePerHour: valuePerHour
     }))
 
+    console.log(data)
+
     await prisma.settlement.create({
       data: {
         hoursWork: workHours.reduce((acc, hour) => acc + hour.hoursWorked, 0),
