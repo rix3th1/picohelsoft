@@ -5,11 +5,16 @@ export default defineEventHandler(async (event) => {
   const id = getRouterParam(event, 'id')
 
   try {
-    const body = await readBody<Employee>(event)
+    const { locationId, ...body } = await readBody<Employee>(event)
 
     const updatedEmployee = await prisma.employee.update({
       where: { id },
-      data: { ...body }
+      data: {
+        ...body,
+        location: {
+          connect: { id: locationId }
+        }
+      }
     })
 
     return updatedEmployee
