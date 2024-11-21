@@ -50,7 +50,7 @@ export default defineEventHandler(async (event) => {
     // Calculate salary based on worked hours and fixed value per hour
     const valuePerHour = parseInt(runtimeConfig.admin.settlementValuePerHour)
     const data = workHours.map((hours) => ({
-      hoursWorked: hours.hoursWorked,
+      hoursWorked: hours.hoursWorked || 0,
       valuePerHour: valuePerHour
     }))
 
