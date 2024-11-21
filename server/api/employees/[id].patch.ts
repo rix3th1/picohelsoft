@@ -14,9 +14,7 @@ export default defineEventHandler(async (event) => {
         location: {
           connect: { id: locationId }
         },
-        gender: {
-          connect: { id: genderId }
-        }
+        gender: genderId
       }
     })
 
