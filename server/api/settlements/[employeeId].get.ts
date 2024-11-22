@@ -4,7 +4,6 @@ import prisma from '~/lib/prisma'
 
 export default defineEventHandler(async (event) => {
   const employeeId = getRouterParam(event, 'employeeId')
-  console.log("test: employeeId: ", employeeId)
   
   try {
     // Fetch employee details including name and document
@@ -45,6 +44,7 @@ export default defineEventHandler(async (event) => {
         hoursWorked: true
       }
     })
+    console.log(workHours)
 
     const runtimeConfig = useRuntimeConfig()
 
