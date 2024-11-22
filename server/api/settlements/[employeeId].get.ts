@@ -4,7 +4,8 @@ import prisma from '~/lib/prisma'
 
 export default defineEventHandler(async (event) => {
   const employeeId = getRouterParam(event, 'employeeId')
-
+  console.log("test: employeeId: ", employeeId)
+  
   try {
     // Fetch employee details including name and document
     const employee = await prisma.employee.findUnique({
