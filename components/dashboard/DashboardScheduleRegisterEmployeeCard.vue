@@ -6,6 +6,7 @@ const props = defineProps<{
 }>()
 
 const isOpen = useModalVerifySecurityPinOpen()
+isOpen.value.employeeId = props.employee.id
 watch(isOpen.value.isOpen, () => {
   isOpen.value.employeeId = props.employee.id
 })
