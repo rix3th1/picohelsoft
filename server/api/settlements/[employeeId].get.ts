@@ -60,9 +60,15 @@ export default defineEventHandler(async (event) => {
         payment: data.reduce((acc, hour) => acc + hour.valuePerHour, 0)
       }
     })
+
+    const delta = [
+  { hoursWorked: 8, valuePerHour: 15 }, // Día 1: 8 horas trabajadas a $15 por hora
+  { hoursWorked: 5, valuePerHour: 15 }, // Día 2: 5 horas trabajadas a $15 por hora
+  { hoursWorked: 10, valuePerHour: 15 } // Día 3: 10 horas trabajadas a $15 por hora
+];
     
     // Generate PDF with the retrieved data
-    const buffer = await generatePDF(data, {
+    const buffer = await generatePDF(delta, {
       name: employee.name,
       document: employee.document
     })
