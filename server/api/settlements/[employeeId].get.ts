@@ -72,7 +72,6 @@ export default defineEventHandler(async (event) => {
       name: employee.name,
       document: employee.document
     })
-    console.log(buffer)
 
     // Create a readable stream to send the PDF as response
     const stream = new Readable({
@@ -81,10 +80,9 @@ export default defineEventHandler(async (event) => {
         this.push(null)
       }
     })
-    console.log(stream)
 
     // Send the PDF stream as response
-    sendStream(event, stream)
+    return sendStream(event, stream)
   } catch (error) {
     console.error({ error })
 
