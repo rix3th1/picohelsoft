@@ -60,8 +60,7 @@ export default defineEventHandler(async (event) => {
         payment: data.reduce((acc, hour) => acc + hour.valuePerHour, 0)
       }
     })
-
-    console.log(data)
+    
     // Generate PDF with the retrieved data
     const buffer = await generatePDF(data, {
       name: employee.name,
@@ -71,7 +70,6 @@ export default defineEventHandler(async (event) => {
     // Create a readable stream to send the PDF as response
     const stream = new Readable({
       read() {
-        this.push(buffer)
         this.push(null)
       }
     })
