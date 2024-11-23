@@ -81,6 +81,7 @@ export default defineEventHandler(async (event) => {
         this.push(null)
       }
     })
+    console.log(stream)
 
     // Send the PDF stream as response
     sendStream(event, stream)
