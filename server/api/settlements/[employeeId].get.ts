@@ -44,7 +44,6 @@ export default defineEventHandler(async (event) => {
         hoursWorked: true
       }
     })
-    console.log(workHours)
 
     const runtimeConfig = useRuntimeConfig()
 
@@ -55,8 +54,6 @@ export default defineEventHandler(async (event) => {
       valuePerHour: valuePerHour
     }))
 
-    console.log(data)
-
     await prisma.settlement.create({
       data: {
         hoursWork: workHours.reduce((acc, hour) => acc + hour.hoursWorked, 0),
@@ -64,6 +61,7 @@ export default defineEventHandler(async (event) => {
       }
     })
 
+    console.log(data)
     // Generate PDF with the retrieved data
     const buffer = await generatePDF(data, {
       name: employee.name,
