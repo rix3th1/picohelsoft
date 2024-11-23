@@ -66,10 +66,12 @@ export default defineEventHandler(async (event) => {
       name: employee.name,
       document: employee.document
     })
+    console.log(buffer)
 
     // Create a readable stream to send the PDF as response
     const stream = new Readable({
       read() {
+        this.push(buffer),
         this.push(null)
       }
     })
