@@ -7,7 +7,7 @@ const props = defineProps<{
 
 const isOpen = useModalVerifySecurityPinOpen()
 isOpen.value.employeeId = props.employee.id
-watch(isOpen.value.isOpen, () => {
+watch(isOpen.value, () => {
   isOpen.value.employeeId = props.employee.id
 })
 const scheduleType = useScheduleType()
