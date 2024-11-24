@@ -6,11 +6,10 @@ const props = defineProps<{
 }>()
 
 const isOpen = useModalVerifySecurityPinOpen()
-isOpen.value.employeeId = props.employee.id
-watch(isOpen.value, () => {
+const scheduleType = useScheduleType()
+watch(scheduleType, () => {
   isOpen.value.employeeId = props.employee.id
 })
-const scheduleType = useScheduleType()
 
 const registerWorkHour = (type: 'start' | 'end') => {
   isOpen.value.isOpen = true
